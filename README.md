@@ -30,11 +30,11 @@ Para la asignatura Técnicas Cuantitativas 1 se han creado diez tutoriales que p
 > 
 > learnr::run_tutorial("06 condicionadas", package= "learnrTC") # creado por Román Salmerón Gómez
 > 
-> learnr::run_tutorial("07 covarianza correlación", package= "learnrTC") # creado por Alessio Gaggero
+> learnr::run_tutorial("07 covarianza correlacion", package= "learnrTC") # creado por Alessio Gaggero
 > 
-> learnr::run_tutorial("08 recta regresión", package= "learnrTC") # creado por Víctor Blanco Izquierdo
+> learnr::run_tutorial("08 recta regresion", package= "learnrTC") # creado por Víctor Blanco Izquierdo
 > 
-> learnr::run_tutorial("08bis recta regresión (no lineal)", package= "learnrTC") # creado por Román Salmerón Gómez
+> learnr::run_tutorial("08bis recta regresion (no lineal)", package= "learnrTC") # creado por Román Salmerón Gómez
 > 
 > learnr::run_tutorial("09 distribucines discretas de probabilidad", package= "learnrTC") # creado por Catalina García García
 
