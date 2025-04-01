@@ -1,0 +1,86 @@
+---
+title: "Estadística no paramétrica"
+output: learnr::tutorial
+runtime: shiny_prerendered
+description: "Román Salmerón Gómez"
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+*Sólo hay una opción corrrecta en cada una de las siguientes preguntas. Para reiniciar la prueba pulse sobre __Star Over__.*
+
+*Os recomendamos que investiguéis aquellos comandos que no conozcáis usando la ayuda de **R**. Por ejemplo: help(Distributions).*
+
+### Ejercicio 1.
+
+```{r ejer-1}
+quiz(
+  question("Indique la expresión incorrecta:", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("La estadística no paramétrica se caracteriza por no tener parámetros.", correct = TRUE),
+           answer("La estadística no paramétrica puede usarse para determinar si una muestra aleatoria simple procede de una población normal.", correct = FALSE),
+           answer("La estadística no paramétrica puede usarse para determinar si una muestra es aleatoria.", correct = FALSE),
+           answer("El contraste de la chi-cuadrado de bondad de ajuste es útil para determinar si una muestra procede de una determinada distribución de probabilidad.", correct = FALSE)
+  ),
+  question("Para comprobar la normalidad de una muestra:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("usaría el test de Kolmogorov-Smirnov mediante el comando shapiro.test.", correct = FALSE),
+    answer("usaría el test de Kolmogorov-Smirnov mediante el comando ks.test.", correct = TRUE),
+    answer("usaría el test de Shapiro-Wilk mediante el comando ks.test.", correct = FALSE),
+    answer("usaría el test de Kolmogorov-Smirnov mediante el comando run.test", correct = FALSE)
+  ), 
+  question("Para comprobar la aleatoriedad de una muestra:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("usaría el test de Kolmogorov-Smirnov para dos muestras mediante el comando run.test de la librería 'tseries'.", correct = FALSE),
+    answer("usaría el test de Kolmogorov-Smirnov para dos muestras para comprobar si ambas poblaciones proceden de la misma población.", correct = FALSE),
+    answer("usaría el test de bondad de ajuste de la chi-cuadrado.", correct = FALSE),
+    answer("usaría el test de rachas mediante el comando run.test de la librería 'tseries'.", correct = TRUE)
+  ), caption = ""
+)
+```
+
+### Ejercicio 2
+
+*Un profesor desea contrastar si la calificación media de sus estudiantes es superior a 5. Con tal objetivo selecciona una muestra de 23 alumnos obteniendo las siguientes calificaciones: 5.75, 6.25, 4.5, 6, 7.75, 5, 5.75, 2.5, 6, 4.5, 4.5, 1, 1.5, 8.5, 7.25, 6, 4, 6.75, 3.25, 1, 7, 1 y 6.75. Para poder realizar dicho contraste es necesario que dicha muestra sea aleatoria y que se distribuya según una población normal. Por tanto, al 5% de significación, ¿es dicha muestra aleatoria? ¿procede de una población normal?*
+
+```{r ejer-2, exercise=TRUE, exercise.lines = 5}
+library(tseries)
+```
+
+```{r ejer-2-hint}
+library(tseries)
+x = c(5.75, 6.25, 4.5, 6, 7.75, 5, 5.75, 2.5, 6, 4.5, 4.5, 1, 1.5, 8.5, 7.25, 6, 4, 6.75, 3.25, 1, 7, 1, 6.75)
+runs.test(as.factor(x>median(x))) # H0: hay aleatoriedad; no rechazo la hipótesis nula ya que el p-valor es mayor que 0.05
+ks.test(x, pnorm, mean(x), sd(x)) # H0: hay normalidad; no rechazo la hipótesis nula ya que el p-valor es mayor que 0.05
+```
+
+### Ejercicio 3
+
+*Los estudiantes de la Universidad de Granada, preocupados por los recortes aprobados por el gobierno en Educación quieren saber lo que les supondrá la rebaja de becas y la subida de tasas para el próximo curso, para así poder redactar un informe de quejas al ministerio correspondiente. Para ello, y ante la imposibilidad de poder recoger datos de todos los alumnos universitarios, se ha tomado una muestra de 8 alumnos, obteniéndose datos sobre el dinero (en miles de euros) que necesitarán durante el último trimestre
+de 2012: 1.2, 1.8, 2.1, 1.4, 1.2, 1.8, 1.8, 2.3. ¿Ha sido la muestra recogida de forma aleatoria? ¿Procede de una distribución normal?*
+
+```{r ejer-3, exercise=TRUE, exercise.lines = 5}
+library(tseries)
+```
+
+```{r ejer-3-hint}
+library(tseries)
+x = c(1.2, 1.8, 2.1, 1.4, 1.2, 1.8, 1.8, 2.3)
+runs.test(as.factor(x>median(x))) # H0: hay aleatoriedad; no rechazo la hipótesis nula ya que el p-valor es mayor que 0.05
+ks.test(x, pnorm, mean(x), sd(x)) # H0: hay normalidad; no rechazo la hipótesis nula ya que el p-valor es mayor que 0.05
+```
+
+### Ejercicio 4
+
+*Con el objetivo de contrastar si la calificación media obtenida en el examen ordinario de la asignatura de Técnicas Cuantitativas 2 es superior a 6 en el curso academico 2021/2022 se tiene en cuenta la calificación obtenida en dicho examen por 22 alumnos: 5.75, 3.5, 2, 10, 10, 4.75, 8.75, 5.5, 7, 3.5, 8.25, 5.75, 9.75, 3.75, 9.25, 6.75, 6.5, 8.75, 8.25, 7.75, 3.5, 4.75. ¿Ha sido la muestra recogida de forma aleatoria? ¿Procede de una distribución normal?*
+
+```{r ejer-4, exercise=TRUE, exercise.lines = 5}
+library(tseries)
+```
+
+```{r ejer-4-hint}
+library(tseries)
+x = c(5.75, 3.5, 2, 10, 10, 4.75, 8.75, 5.5, 7, 3.5, 8.25, 5.75, 9.75, 3.75, 9.25, 6.75, 6.5, 8.75, 8.25, 7.75, 3.5, 4.75)
+runs.test(as.factor(x>median(x))) # H0: hay aleatoriedad; no rechazo la hipótesis nula ya que el p-valor es mayor que 0.05
+ks.test(x, pnorm, mean(x), sd(x)) # H0: hay normalidad; no rechazo la hipótesis nula ya que el p-valor es mayor que 0.05
+```

@@ -1,0 +1,223 @@
+---
+title: "Estimación puntual"
+output: learnr::tutorial
+runtime: shiny_prerendered
+description: "Román Salmerón Gómez"
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Parte 1: pruebas tipo test
+
+*Sólo hay una opción corrrecta en cada una de las siguientes preguntas. Para reiniciar la prueba pulse sobre __Star Over__.*
+
+*Os recomendamos que investiguéis aquellos comandos que no conozcáis usando la ayuda de **R**. Por ejemplo: help(Distributions).*
+
+### Ejercicio 1: Estadísticos muestrales
+
+
+```{r ejer-1}
+quiz(
+  question("Indique la expresión incorrecta:", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("Las características muestrales hacen referencia a los momentos de la variable aleatoria.", correct = TRUE),
+           answer("En el muestreo aleatorio simple todos los elementos de la población tienen la misma probabilidad de estar en la muestra.", correct = FALSE),
+           answer("Una muestra es un subconjunto representativo de la población.", correct = FALSE),
+           answer("Las características poblacionales hacen referencia a los momentos de la variable aleatoria.", correct = FALSE)
+  ),
+  question("Indique la expresión correcta:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("Un estadístico muestral es una función real de la muestra aleatoria simple que contiene algún parámetro/valor desconocido.", correct = FALSE),
+    answer("Un estadístico muestral es una función real de la muestra aleatoria simple que no contiene ningún parámetro/valor desconocido.", correct = TRUE),
+    answer("Un estadístico muestral no es una variable aleatoria.", correct = FALSE),
+    answer("Dada una muestra aleatoria simple, la suma del primero más dos veces el último no es un estadístico muestral.", correct = FALSE)
+  ), 
+  question("Los principales estadísticos muestrales son:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("La media y varianza muestral, los cuales se relacionan con la media y cuasi-varianza poblacional, respectivamente.", correct = FALSE),
+    answer("La media y cuasi-varianza muestral, los cuales se relacionan con la media y varianza poblacional, respectivamente.", correct = FALSE),
+    answer("La media y varianza muestral, los cuales se relacionan con la varianza y media poblacional, respectivamente.", correct = FALSE),
+    answer("La media y varianza muestral, los cuales se relacionan con la media y varianza poblacional, respectivamente.", correct = TRUE)
+  ), 
+  question("Dada una muestra aleatoria simple de tamaño 'n' procedente de una variable aleatoria X, indique la afirmación incorrecta:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("La covarianza de cualesquiera dos elementos de la muestra es igual a cero debido a la hipótesis de independencia.", correct = FALSE),
+    answer("La media de la media muestral coincide con la media de X.", correct = FALSE),
+    answer("La varianza de la media muestral coincide con la varianza de X dividida entre el tamaño de la muestra.", correct = FALSE),
+    answer("La varianza de la media muestral coincide con la varianza de X.", correct = TRUE)
+  ), 
+  question("Dada una muestra aleatoria simple de tamaño 'n' procedente de una variable aleatoria X, indique la afirmación incorrecta:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("Todos los elementos de la muestra son variables aleatorias independiente e idénticamente distribuidas con la misma distribución de la variable X de la que proceden.", correct = FALSE),
+    answer("La media de la cuasi-varianza muestral coincide con la varianza de X.", correct = FALSE),
+    answer("La media de la varianza muestral no coincide con la varianza de X.", correct = FALSE),
+    answer("La media de la varianza muestral coincide con la varianza de X.", correct = TRUE)
+  ), caption = ""
+)
+```
+
+### Ejercicio 2: Estimador de un parámetro
+
+*Dada $X$ una variable aleatoria continua cuya distribución de probabilidad depende de un parámetro desconocido $\theta$, dada una muestra aleatoria de tamaño $n$, se tiene que un estimador puntual $\widehat{\theta}(x_{1},\dots,x_{n})$ de $\theta$...*
+
+```{r ejer-2}
+quiz(
+  question("Indique la afirmación correcta:", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("es un estadístico muestral que proporciona una aproximación numérica del verdadero valor del parámetro desconocido a partir de la muestra.", correct = TRUE),
+           answer("es un estadístico muestral que proporciona una aproximación numérica del verdadero valor del parámetro desconocido a partir de la opinión de un experto.", correct = FALSE),
+           answer("es un estadístico muestral y, en consecuencia, no es una variable aleatoria.", correct = FALSE),
+           answer("es siempre la media muestral.", correct = FALSE)
+  ),
+  question("El método de máxima verosimilitud...", allow_retry = TRUE, random_answer_order = TRUE,
+    answer("consiste en considerar como estimador puntual aquel valor del parámetro desconocido que minimiza la probabilidad de ocurrencia de los valores muestrales observados.", correct = FALSE),
+    answer("consiste en considerar como estimador puntual aquel valor del parámetro desconocido que minimiza la distribución de probabilidad, es decir, la función de cuantía o de densidad conjunta.", correct = FALSE),
+    answer("en equiparar/igualar los momentos poblacionales a sus momentos muestrales equivalentes.", correct = FALSE),
+    answer("consiste en considerar como estimador puntual aquel valor del parámetro desconocido que maximiza la distribución de probabilidad.", correct = TRUE)
+  ), 
+  question("El método de los momentos...", allow_retry = TRUE, random_answer_order = TRUE,
+    answer("siempre proporciona los mismos estimadores puntuales que el método de máxima verosimilitud.", correct = FALSE),
+    answer("consiste en igualar la media poblacional a la media muestral.", correct = FALSE),
+    answer("consiste en equiparar/igualar los momentos poblacionales a sus momentos muestrales equivalentes, usando tantos momentos como parámteros desconocidos a estimar.", correct = FALSE),
+    answer("consiste en considerar como estimador puntual aquel valor del parámetro desconocido que maximiza la distribución de probabilidad.", correct = TRUE)
+  ), caption = ""
+)
+```
+
+### Ejercicio 3: Propiedades de los estimadores puntuales
+
+```{r ejer-3}
+quiz(
+  question("Dado un estimador puntual...:", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("se dice que es eficiente si su media coincide con el verdadero valor del parámetro, lo cual se interpreta como que sus aproximaciones numéricas están alrededor del verdadero valor del parámetro.", correct = FALSE),
+           answer("se dice que es eficiente si es sesgado.", correct = FALSE),
+           answer("se dice que es eficiente si es insesgado.", correct = FALSE),
+           answer("se dice que es insesgado si su media coincide con el verdadero valor del parámetro, lo cual se interpreta como que sus aproximaciones numéricas están alrededor del verdadero valor del parámetro.", correct = TRUE)
+  ),
+  question("Dado un estimador puntual...", allow_retry = TRUE, random_answer_order = TRUE,
+    answer("se dice que es eficientes si las diferencias existentes entre sus aproximaciones numéricas y el verdadero valor del parámetro son lo más pequeñas posibles.", correct = FALSE),
+    answer("se dice que es eficientes si su varianza es igual a la cota de Frechet-Cramer-Rao.", correct = FALSE),
+    answer("se dice que no es eficiente si es insesgado.", correct = FALSE),
+    answer("se dice que es eficientes si es insesgado y su varianza es igual a la cota de Frechet-Cramer-Rao, lo cual se interpreta como que las diferencias existentes entre sus aproximaciones numéricas y el verdadero valor del parámetro son lo más pequeñas posibles.", correct = TRUE)
+  ), 
+  question("Dado un estimador puntual...", allow_retry = TRUE, random_answer_order = TRUE,
+    answer("si no es igual a la media muestral no es ni insesgado, ni eficiente ni consistente.", correct = FALSE),
+    answer("si es consistente entonces es insesgado.", correct = FALSE),
+    answer("si no es insesgado no es consistente.", correct = FALSE),
+    answer("se dice que es consistente si a mayor información (mayor tamaño muestral) menor es el error cometido en la estimación.", correct = TRUE)
+  ), caption = ""
+)
+```
+
+
+
+## Parte 2: trabajamos con R
+
+*Para poder trabajar correctamente en los siguientes ejercicios, ha de asegurarse que están instalados los paquetes __Ecdat__.*
+
+*Para reiniciar la prueba pulse sobre __Star Over__.*
+
+*Os recomendamos que investiguéis aquellos comandos que no conozcáis usando la ayuda de **R**. Por ejemplo: help(attach). También puede ser interesante visitar la web <https://rnoremlas.quarto.pub/un_rincon_para_r/posts/11_probabilidad/>*
+
+### Ejercicio 4.
+
+*Sea $X$ la variable aleatoria definida como tiempo (en horas) transcurrido en realizar el examen final de cierta asignatura. Durante la última convocatoria se anotó el tiempo que tardó cada alumno en realizar dicho examen, obteniéndose la siguiente muestra: 1, 1.7, 1.8, 1.5, 1.85, 1.3, 2, 1.9, 1.6, 1.75, 1.8, 1.9. Calcule la media, varianza y cuasi-varianza muestral.*
+
+```{r ejer-1-bis, exercise=TRUE, exercise.lines = 3}
+
+```
+
+```{r ejer-1-bis-hint}
+x = c(1, 1.7, 1.8, 1.5, 1.85, 1.3, 2, 1.9, 1.6, 1.75, 1.8, 1.9)
+mean(x)
+n=length(x)
+(n-1)*var(x)/n
+var(x)
+```
+
+### Ejercicio 5.
+
+*En la base de datos __Housing__ de la librería de R __Ecdat__ se tiene información, entre otras variables, sobre el precio de 546 vivendas (denominada __price__). Para más detalles ejecutar help(Housing).*
+
+*Suponiendo que el precio se distribuye mediante una normal, escriba el código que permita calcular el estimador puntual para la media poblacional en cuatro muestras distintas de tamaño 200.*
+
+```{r ejer-2-bis, exercise=TRUE, exercise.lines = 9}
+library(Ecdat)
+attach(Housing) 
+```
+
+```{r ejer-2-bis-hint}
+library(Ecdat)
+attach(Housing) 
+set.seed(2025) # establezco una semilla para que todo el mundo obtenga las mismas muestras
+muestra1 = sample(price, size = 200)
+muestra2 = sample(price, size = 200)
+muestra3 = sample(price, size = 200)
+muestra4 = sample(price, size = 200)
+c(mean(muestra1), mean(muestra2), mean(muestra3), mean(muestra4))
+```
+
+*Escriba el código que permita calcular el estimador puntual sesgado para la varianza poblacional considerando toda la muestra. ¿Cuál es la diferencia con el valor del estimador insesgado?*
+
+```{r ejer-2-tris, exercise=TRUE, exercise.lines = 3}
+
+```
+
+```{r ejer-2-tris-hint}
+var(price)
+var(price) - (545/546)*var(price)
+```
+
+### Ejercicio 6.
+
+*Erase una vez un día, del mes de agosto de cualquier año, que estaba aburrido en mi casa, por lo que me asomé a la ventana y me dediqué a contar los coches que pasaban en intervalos de 2 minutos. Obtuve los siguientes datos: 12, 11, 9, 11, 10, 9, 11, 9, 10, 10, 8. Sabiendo que la distribución que sigue la variable aleatoria número de coches que pasan por debajo de la ventana de mi casa cada 2 minutos es una distribución de Poisson con parámetro $\lambda$, se pide calcular la probabilidad de que por dicho punto pasen exactamente 9 coches cada 2 minutos.*
+
+```{r ejer-3-bis, exercise=TRUE, exercise.lines = 5}
+
+```
+
+```{r ejer-3-bis-hint}
+x = c(12, 11, 9, 11, 10, 9, 11, 9, 10, 10, 8)
+landa = mean(x) # sabemos que el estimador puntual para landa es la media muestral
+dpois(9, landa) # resuelvo usando la función de cuantía
+ppois(9,landa)-ppois(8,landa) # resuelvo usando la función de distribución
+```
+
+
+### Ejercicio 7.
+
+*Supongamos que el sueldo mensual, en miles de euros, de los directivos de una gran empresa siguen una distribución normal de media 10 y varianza 1, mientras que el salario mensual del resto de personal sigue una distribución normal de media y varianza iguales a  4. Si se extrae una muestra aleatoria simple de 10 directivos y otra de 20 empleados no directivos. ¿Cuál es la probabilidad de que el sueldo mensual medio muestral de los directivos supere los 10.500 euros? ¿Y la probabilidad de que el sueldo medio muestral de los empleados no directivos supere los 5.000 euros? ¿Cuál es la probabilidad de que el sueldo medio muestral de los directivos supere al del resto del personal en más de 5.000 euros?*
+
+```{r ejer-4-bis, exercise=TRUE, exercise.lines = 4}
+
+```
+
+```{r ejer-4-bis-hint}
+1-pnorm(10.5, mean=10, sd=sqrt(1/10)) # la media muestral se distribuye según una normal de media 10 y varianza 1/10
+1-pnorm(5, mean=4, sd=sqrt(4/20)) # la media muestral se distribuye según una normal de media 4 y varianza 4/20
+1-pnorm(5, mean=6, sd=sqrt(6/20)) # la diferencia de medias muestrales se distribuye según una normal de media 6 y varianza 6/20
+```
+
+### Ejercicio 8.
+
+*Según la publicidad del Banco Santander, del total de los créditos ICO concedidos en la Comunidad de Andalucía hasta el 12 de octubre de 2009, dicha entidad ha formalizado el 26’2%. Si se escogen 100 créditos ICO al azar, ¿cuál es la probabilidad de que menos del 65% no los haya concedido el Banco Santander?*
+
+```{r ejer-5-bis, exercise=TRUE, exercise.lines = 4}
+
+```
+
+```{r ejer-5-bis-hint}
+media = 1-0.262
+varianza = media*(1-media)/100
+pnorm(0.65, mean=0.738, sd=sqrt(varianza)) # la proporción de créditos no concedidos se distribuye según una normal p y varianza p*(1-p)/n donde p=1-0.262 y n=100
+```
+
+### Ejercicio 9.
+
+*Supongamos que la variable edad de los alumnos matriculados en primero de la Facultad de Ciencias Económicas sigue una distribución normal de media 21 y varianza 4. ¿Cuál es la probabilidad de que un alumno elegido al azar tenga más de 19 años? Cuál es la probabilidad de que una muestra de tamaño 9 tenga una media inferior a 19?*
+
+```{r ejer-6-bis, exercise=TRUE, exercise.lines = 3}
+
+```
+
+```{r ejer-6-bis-hint}
+1- pnorm(19, 21, 2)
+pnorm(19, 21, sqrt(4/9)) # la media muestral se distribuye según una normal de media 21 y varianza 4/9
+```

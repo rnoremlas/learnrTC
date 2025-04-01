@@ -1,0 +1,297 @@
+---
+title: "Contrastes de hipótesis"
+output: learnr::tutorial
+runtime: shiny_prerendered
+description: "Román Salmerón Gómez"
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Parte 1: pruebas tipo test
+
+*Sólo hay una opción corrrecta en cada una de las siguientes preguntas. Para reiniciar la prueba pulse sobre __Star Over__.*
+
+*Os recomendamos que investiguéis aquellos comandos que no conozcáis usando la ayuda de **R**. Por ejemplo: help(var.test).*
+
+### Ejercicio 1: Contraste de hipótesis
+
+
+```{r ejer-1}
+quiz(
+  question("Un contraste de hipótesis:", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("es un procedimiento, basado en la información muestral disponible, que permite discernir si una suposición sobre los posibles valores que puede tomar un parámetro desconocido de una distribución de probabilidad puede considerarse o no como cierta.", correct = TRUE),
+           answer("es lo mismo que un intervalo de confianza.", correct = FALSE),
+           answer("es lo contrario que un intervalo de confianza.", correct = FALSE),
+           answer("es un procedimiento basado en la información proporcionada por la muestra que no tiene nada que ver con las distribuciones de los estadísticos muestrales.", correct = FALSE)
+  ),
+  question("Indique la expresión incorrecta:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("La hipótesis nula de un contraste de hipótesis es aquella que considera como cierta la suposición inicialmente formulada sobre el parámetro desconocido de la distribución de probabilidad.", correct = FALSE),
+    answer("Si no se verifica la regla de decisión marcada por la región de rechazo, se ha de aceptar la hipótesis nula.", correct = TRUE),
+    answer("La regla de decisión viene determinada por una región conocida como región de rechazo y suele verificar que es la región complementaria al intervalo de confianza.", correct = FALSE),
+    answer("La hipótesis nula será rechazada o no rechaza, pero nunca aceptada.", correct = FALSE)
+  ), 
+  question("Indica la expresión incorrecta: Las hipótesis (nula y alternativa) pueden ser...", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("simples y compuestas.", correct = FALSE),
+    answer("aceptadas y rechazadas.", correct = TRUE),
+    answer("ambas simples.", correct = FALSE),
+    answer("ambas compuestas.", correct = FALSE)
+  ), 
+  question("En la toma de la decisión de rechazar o no la hipótesis nula:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("se puede cometer el error tipo I, que consiste en rechazar la hipótesis nula cuando es falsa.", correct = FALSE),
+    answer("se puede cometer el error tipo I, que consiste en rechazar la hipótesis nula cuando es cierta.", correct = TRUE),
+    answer("se puede cometer el error tipo II, que consiste en no rechazar la hipótesis nula cuando es cierta.", correct = FALSE),
+    answer("se puede cometer el error tipo II, que consiste en aceptar la hipótesis nula cuando es falsa.", correct = FALSE)
+  ), caption = ""
+)
+```  
+  
+### Ejercicio 2: Región de rechazo
+
+
+```{r ejer-2}
+quiz(
+  question("La región de rechazo:", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("puede interpretarse como el conjunto de valores (muestra) que difícilmente ocurrirán si la hipótesis nula es verdadera.", correct = TRUE),
+           answer("puede interpretarse como el conjunto de valores que ocurrirán si la hipótesis nula es verdadera.", correct = FALSE),
+           answer("es lo mismo que la región crítica y consiste en comprobar si la muestra verifica la regla establecida por el intervalo de confianza asociado.", correct = FALSE),
+           answer("nunca va a verificar que exista una muestra (conjunto de valores) que la verifique siendo la hipótesis nula verdadera.", correct = FALSE)
+  ),
+  question("Indique la expresión incorrecta:", allow_retry = TRUE, random_answer_order = TRUE,
+           answer("El nivel de significación es lo complementario al nivel de confianza y coincide con la probabilidad de cometer error tipo II.", correct = TRUE),
+           answer("La región de rechazo depende del nivel de significación, el cual se interpreta como la probabilidad de rechazar la hipótesis nula cuando es verdadera.", correct = FALSE),
+           answer("El nivel de significación es la probabilidad de cometer error tipo I.", correct = FALSE),
+           answer("El nivel de significación suele tomar valores bajos ya que se desea minimizar los errores cometidos en la toma de decisiones del contraste de hipótesis.", correct = FALSE)
+  ), 
+  question("Indique la expresión incorrecta:", allow_retry = TRUE, random_answer_order = TRUE,
+           answer("El test de Razón de Verosimilitudes es la metodología usada para obtener intervalos de confianza.", correct = TRUE),
+           answer("La función potencia se define como la probabilidad de rechazar la hipótesis nula para cualquier valor del parámetro desconocido.", correct = FALSE),
+           answer("Cuando el parámetro desconocido pertenece a la hipótesis nula, la función potencia se interpreta como la probabilidad de cometer error tipo I.", correct = FALSE),
+           answer("Cuando el parámetro desconocido pertenece a la hipótesis alternativa, la función potencia se interpreta como la probabilidad de cometer error tipo II.", correct = FALSE)
+  ), 
+  question("El p-valor:", allow_retry = TRUE, random_answer_order = TRUE,
+           answer("se define como el mínimo valor de significación a partir del cual se rechaza la hipótesis nula.", correct = TRUE),
+           answer("mayor que 0.05 indica que se rechaza la hipótesis nula al 5% de significación.", correct = FALSE),
+           answer("menor que 0.05 indica que se rechaza la hipótesis nula al 1% de significación.", correct = FALSE),
+           answer("mayor que 0.01 indica que se rechaza la hipótesis nula al 5% de significación.", correct = FALSE)
+  ), caption = ""
+)
+```
+
+*Dada $X_{1}, \dots, X_{n}$ una muestra de tamaño $n$ procedente de una población $X \sim N(\mu, \sigma^{2})$ donde $\mu$ y $\sigma^{2}$, se pueden plantear los siguientes contrastes de hipótesis sobre la varianza: $$a) H_{0}: \sigma^{2} = \sigma^{2}_{0} \mbox{ vs } H_{1}: \sigma^{2} \not= \sigma^{2}_{0},$$ $$b) H_{0}: \sigma^{2} \leq \sigma^{2}_{0} \mbox{ vs } H_{1}: \sigma^{2} > \sigma^{2}_{0},$$ y sobre la media: $$c) H_{0}: \mu = \mu_{0} \mbox{ vs } H_{1}: \mu \not= \mu_{0},$$ $$d) H_{0}: \mu \geq \mu_{0} \mbox{ vs } H_{1}: \mu < \mu_{0}.$$*
+  
+```{r ejer-1-bis}
+quiz(
+  question("Se verifica que:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("Las hipótesis nulas de las expresiones a) y c) son compuestas.", correct = FALSE),
+    answer("Las hipótesis nulas de las expresiones b) y d) son simples.", correct = FALSE),
+    answer("La hipótesis nula de la expresión b) es simple y la hipótesis alternativa de la expresión c) es compuesta.", correct = FALSE),
+    answer("La hipótesis nula de la expresión a) es simple y la hipótesis alternativa de la expresión d) es compuesta.", correct = TRUE)
+  ), 
+  question("La expresión c):", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("propone inicialmente que el verdadero valor de la media poblacional es distinto de un valor dado.", correct = FALSE),
+    answer("propone inicialmente que el verdadero valor de la media poblacional puede ser más de un único valor.", correct = FALSE),
+    answer("propone inicialmente que el verdadero valor de la varianza poblacional es igual a un único valor.", correct = FALSE),
+    answer("propone inicialmente que el verdadero valor de la media poblacional es igual a un único valor.", correct = TRUE)
+  ), caption = ""
+)
+```
+
+*Dadas $X_{1}, \dots, X_{n}$ una muestra aleatoria de tamaño $n$ procedente de una población $X \sim N(\mu_{1}, \sigma^{2}_{1})$ e $Y_{1}, \dots, Y_{m}$ una muestra de tamaño $m$ procedente de una población $X \sim N(\mu_{2}, \sigma^{2}_{2})$, se pueden plantear los siguientes contrastes de hipótesis sobre la varianza: $$a) H_{0}: \sigma_{1}^{2} = \sigma_{2}^{2} \mbox{ vs } H_{1}: \sigma_{1}^{2} \not= \sigma^{2}_{2},$$ $$b) H_{0}: \sigma_{1}^{2} \geq \sigma_{2}^{2} \mbox{ vs } H_{1}: \sigma_{1}^{2} < \sigma^{2}_{2},$$ y sobre la media: $$c) H_{0}: \mu_{1} = \mu_{2} \mbox{ vs } H_{1}: \mu_{1} \not= \mu_{2},$$ $$d) H_{0}: \mu_{1} \leq \mu_{2} \mbox{ vs } H_{1}: \mu_{1} > \mu_{2}.$$*
+  
+```{r ejer-2-bis}
+quiz(
+  question("Se verifica que las medias de ambas poblaciones son iguales si:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("se acepta la hipótesis nula en la opción c).", correct = FALSE),
+    answer("no se rechaza la hipótesis nula en la opción d).", correct = FALSE),
+    answer("se rechaza la hipótesis nula en la opción c).", correct = FALSE),
+    answer("no se rechaza la hipótesis nula en la opción c).", correct = TRUE)
+  ), 
+  question("Se verifica que la primera población tiene una media poblacional menor que la segunda si:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("no se rechaza la hipótesis nula en la opción c).", correct = FALSE),
+    answer("se acepta la hipótesis nula en la opción d).", correct = FALSE),
+    answer("se rechaza la hipótesis nula en la opción d).", correct = FALSE),
+    answer("no se rechaza la hipótesis nula en la opción d).", correct = TRUE)
+  ), 
+  question("Se verifica que las varianzas de ambas poblaciones son iguales si:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("se acepta la hipótesis nula en la opción a).", correct = FALSE),
+    answer("no se rechaza la hipótesis nula en la opción b).", correct = FALSE),
+    answer("se rechaza la hipótesis nula en la opción a).", correct = FALSE),
+    answer("no se rechaza la hipótesis nula en la opción a).", correct = TRUE)
+  ), 
+  question("Se verifica que la primera población tiene una varianza poblacional menor que la segunda si el intervalo de confianza para la diferencia de varianzas poblacionales correspondiente tiene:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("no se rechaza la hipótesis nula en la opción b).", correct = FALSE),
+    answer("se rechaza la hipótesis nula en la opción a).", correct = FALSE),
+    answer("se acepta la hipótesis nula en la opción b).", correct = FALSE),
+    answer("se rechaza la hipótesis nula en la opción b).", correct = TRUE)
+  ), caption = ""
+)
+```
+
+
+### Ejercicio 3: Comandos en R
+
+*Se recomienda visitar la web <https://rnoremlas.quarto.pub/un_rincon_para_r/posts/12_inferencia/>.*
+
+```{r ejer-3}
+quiz(
+  question("Suponiendo que la variable aleatoria _salario_ se distribuye según una normal cuando se distingue por el género:", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("usaría el comando var.test(salario_hombre, salario_mujer) para calcular una región de rechazo que permita determinar si el salario medio puede ser igual en ambos géneros al 5% de significación.", correct = FALSE),
+           answer("usaría el comando var.test(salario_hombre, salario_mujer, conf.level=0.9) para calcular una región de rechazo que permita determinar si el salario tiene la misma dispersión en ambos géneros al 1% de significación.", correct = FALSE),
+           answer("usaría el comando var.test(salario_hombre, salario_mujer, conf.level=0.9) para calcular una región de rechazo que permita determinar si el salario tiene la misma dispersión en ambos géneros al 5% de significación.", correct = FALSE),
+           answer("usaría el comando var.test(salario_hombre, salario_mujer) para calcular una región de rechazo que permita determinar si el salario tiene la misma dispersión en ambos géneros al 5% de significación.", correct = TRUE)
+  ),
+  question("Suponiendo que la variable aleatoria _salario_ se distribuye según una normal cuando se distingue por el género y verificándose que en tal caso las varianzas poblacionales son distintas:", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("usaría el comando t.test(salario_hombre, salario_mujer, alternative='greater', conf.level=0.9) para calcular una región de rechazo que permita determinar si el salario medio es igual en ambos géneros al 5% de significación.", correct = FALSE),
+           answer("usaría el comando t.test(salario_hombre, salario_mujer, alternative='less', conf.level=0.9) para calcular una región de rechazo que permita determinar si el salario medio es igual en ambos géneros al 1% de significación.", correct = FALSE),
+           answer("usaría el comando t.test(salario_hombre, salario_mujer, var.equal=TRUE) para calcular una región de rechazo que permita determinar si el salario medio es igual en ambos géneros al 5% de significación.", correct = FALSE),
+           answer("usaría el comando t.test(salario_hombre, salario_mujer) para calcular una región de rechazo que permita determinar si el salario medio es igual en ambos géneros al 5% de significación.", correct = TRUE)
+  ), 
+  question("Indique la expresión incorrecta:", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("El comando var.test(salario_hombres, salario_mujeres, conf.level=0.99) permite calcular una región de rechazo, al nivel de significación del 1%, para el cociente de varianzas poblacionales.", correct = FALSE),
+           answer("El comando t.test(salario_hombres, salario_mujeres, var.equal=TRUE) permite calcular una región de rechazo para la diferencia de las medias poblacionales suponiendo que las varianzas poblacionales son desconocidas pero iguales al nivel de significación del 5%.", correct = FALSE),
+           answer("No tenemos (en la instalación básica) un comando para calcular la región de rechazo para la proporción ni diferencia de proporciones.", correct = FALSE),
+           answer("El comando t.test(salario_hombres, salario_mujeres) permite calcular una región de rechazo para la diferencia de las medias de las variables consideradas suponiendo que las varianzas poblacionales son desconocidas pero iguales al nivel de significación del 5%.", correct = TRUE)
+  ), caption = ""
+)
+```
+
+
+## Parte 2: trabajamos con R
+
+*Para poder trabajar correctamente en los siguientes ejercicios, ha de asegurarse que están instalados los paquetes __Ecdat__.*
+
+*Para reiniciar la prueba pulse sobre __Star Over__.*
+
+*Os recomendamos que investiguéis aquellos comandos que no conozcáis usando la ayuda de **R**. Por ejemplo: help(attach). También puede ser interesante visitar la web <https://rnoremlas.quarto.pub/un_rincon_para_r/posts/12_inferencia/>*
+
+### Ejercicio 4.
+
+*Supongamos que el tiempo medio que se emplea en realizar cierta tarea dentro de un proceso de producción se distribuye según una normal. Se quiere estudiar la hipótesis de que en la fábrica A, donde se ha instalado una nueva maquinaria, el tiempo medio necesario para realizar la tarea es menor que en la fábrica B, que sigue funcionando con la maquinaria antigua. A la vista de la siguientes muestras: A) 28, 25, 27, 68, 44, 30, 53, 60, 50, 25, 53 y B) 27, 37, 43, 29, 61, 58, 75, 46, 56, 80, 57, ¿se puede decir, con un nivel de significación del 1%, que la hipótesis planteada es cierta?*
+
+```{r ejer-1-rebis, exercise=TRUE, exercise.lines = 5}
+
+```
+
+```{r ejer-1-rebis-hint}
+x = c(28, 25, 27, 68, 44, 30, 53, 60, 50, 25, 53)
+y = c(27, 37, 43, 29, 61, 58, 75, 46, 56, 80, 57)
+var.test(x, y, conf.level=0.99) # p-valor > 0.05, no rechazo la hipótesis nula de igualdad de varianzas
+t.test(x, y, var.equal=TRUE, alternative="greater", conf.level=0.99) # p-valor > 0.05, no rechazo la hipótesis nula de que la media de la fábrica A es menor que la de la fábrica B
+```
+
+### Ejercicio 5.
+
+*En la base de datos __Housing__ de la librería de R __Ecdat__ se tiene información, entre otras variables, sobre el precio de 546 vivendas (denominada __price__) y su tamaño (denominada __lotsize__). Para más detalles ejecutar help(Housing).*
+
+*Suponiendo que hay normalidad, ¿Se puede afirmar, a un nivel de significación del 5%, que la dispersión del precio es mayor que la del tamaño?*
+
+```{r ejer-2-rebis, exercise=TRUE, exercise.lines = 4}
+library(Ecdat)
+attach(Housing) 
+```
+
+```{r ejer-2-rebis-hint}
+library(Ecdat)
+attach(Housing) 
+var.test(price, lotsize, alternative="less") # p-valor > 0.05, no rechazo la hipótesis nula de la dispersión del precio es mayor que la del tamaño
+```
+
+### Ejercicio 6.
+
+*Suponga que el número medio de días de ausencia de los trabajadores de cierta empresa es una variable aleatoria normal. Teniendo en cuenta la siguiente muestra para los hombres: 2.4, 2.6, 3.7, 2.9, 2.8, 3.1, 3.5, 3, 2.2, 2.5, 3.1, 3.1, y esta otra para las mujeres: 2.8, 2.9, 2.8, 2.7, 2.9, 2.6, 2.6, 2.8, 2.9, 3.1, 3, 2.6, 3. ¿Se puede decir, con un 5% de significación, que el número medio de ausencias es menor que 3 en ambos casos? ¿Es igual en hombres y mujeres?.*
+
+```{r ejer-3-bis, exercise=TRUE, exercise.lines = 7}
+
+```
+
+```{r ejer-3-bis-hint}
+x = c(2.4, 2.6, 3.7, 2.9, 2.8, 3.1, 3.5, 3, 2.2, 2.5, 3.1, 3.1) # hombres
+y = c(2.8, 2.9, 2.8, 2.7, 2.9, 2.6, 2.6, 2.8, 2.9, 3.1, 3, 2.6, 3) # mujeres
+t.test(x, mu=3, alternative="greater") # p-valor > 0.05, no rechazo la hipótesis nula de la ausencia media es menor que 3
+t.test(y, mu=3, alternative="greater") # p-valor > 0.05, no rechazo la hipótesis nula de la ausencia media es menor que 3
+var.test(x, y) # p-valor < 0.05, rechazo la hipótesis nula de igualdad de varianzas
+t.test(x, y) # p-valor > 0.05, no rechazo la hipótesis nula de igualdad de medias
+```
+
+### Ejercicio 7.
+
+*Un juez imputado en un caso está siendo investigado por supuestas irregularidades en las pensiones fijadas por divorcio en un barrio de Granada. Para realizar tal investigación se ha tomado una muestra aleatoria simple de 12 casos de divorcio cerrados por tal juez durante el último año y se han obtenido las siguientes cantidades (en euros) sobre las pensiones compensatorias asignadas a uno de los cónyugues mensualmente: 206, 233, 282, 245, 316, 293, 213, 283, 208, 262, 190 y 209. El encargado de la investigación ha estipulado que en la zona en cuestión se consideran irregulares aquellas pensiones compensatorias mayores de 280 euros. ¿Se puede afirmar, al 10% de significación, las pensiones estipuladas por el juez imputado son irregulares?*
+
+
+```{r ejer-4-bis, exercise=TRUE, exercise.lines = 3}
+
+```
+
+```{r ejer-4-bis-hint}
+x = c(206, 233, 282, 245, 316, 293, 213, 283, 208, 262, 190, 209)
+t.test(x, alternative="less", conf.level=0.9) # no rechazo H0, las pensiones estipuladas por el juez imputado no son irregulares
+```
+
+### Ejercicio 8.
+
+*En un estudio realizado sobre los alumnos egresados de la facultad de Ciencias Económicas y Empresariales de la UGR, se obtuvo que 8 alumnos que cursaron estudios en ADE-Derecho tenían el siguiente sueldo mensual (en miles de euros): 1.2, 1.8, 2.1, 1.4, 1.2, 1.8, 1.8, 2.3. Mientras que para 6 alumnos que cursaron estudios en ADE se obtuvieron los siguientes sueldos mensuales: 1.4, 2, 1.8, 1.5, 1.2, 2.2. ¿Coinciden, al 1% de significación, los sueldos medios?*
+
+```{r ejer-5-bis, exercise=TRUE, exercise.lines = 5}
+
+```
+
+```{r ejer-5-bis-hint}
+x=c(1.2, 1.8, 2.1, 1.4, 1.2, 1.8, 1.8, 2.3)
+y=c(1.4, 2, 1.8, 1.5, 1.2, 2.2)
+var.test(x, y, conf.level=0.99) # no rechazo la hipótesis nula de igualdad de varianzas ya que p-valor>0.01
+t.test(x, y, var.equal=TRUE, conf.level=0.99) # no rechazo la hipótesis nula de igualdad de medias ya que p-valor>0.01
+```
+
+### Ejercicio 9.
+
+*En la empresa __Tara__ se han llevado a cabo pruebas de selección de personal. Una de las pruebas consistía en una entrevista con un psicólogo, el cual evaluaba al candidato en una escala del 1 al 10, siendo calificado el mismo como apto a partir de una puntuación de 6. De todas las mujeres presentadas se extrae una muestra de 19 individuos cuyas calificaciones son las siguientes: 4, 8, 10, 9, 7, 4, 4, 9, 10, 9, 6, 10, 6, 10, 4, 7, 8, 10, 8. Por otro lado, de los hombres presentados se consideran las 25 calificaciones siguientes: 6, 5, 6, 6, 7, 4, 7, 4, 4, 8, 5, 8, 7, 7, 7, 5, 7, 1, 9, 9, 8, 7, 3, 4, 5. Suponiendo que ambas muestras son aleatorias y proceden de sendas poblaciones normales, ¿las calificaciones medias implican ser apto? ¿la dispersión de la primera muestra es inferior que la de la segunda? ¿la calificación de la primera muestra es mayor que la de la segunda? ¿e iguales?*
+
+```{r ejer-6-bis, exercise=TRUE, exercise.lines = 9}
+
+```
+
+```{r ejer-6-bis-hint}
+x = c(4, 8, 10, 9, 7, 4, 4, 9, 10, 9, 6, 10, 6, 10, 4, 7, 8, 10, 8)
+y = c(6, 5, 6, 6, 7, 4, 7, 4, 4, 8, 5, 8, 7, 7, 7, 5, 7, 1, 9, 9, 8, 7, 3, 4, 5)
+t.test(x, mu=6, alternative="less") # no rechazo que la calificación media sea de apto ya que no rechazo la hipótesis nula de que sea mayor que 6
+t.test(y, mu=6, alternative="less") # no rechazo que la calificación media sea de apto ya que no rechazo la hipótesis nula de que sea mayor que 6
+var.test(x, y, alternative="greater") # no rechazo la hipótesis nula de que la dispersión de la primera muestra es inferior que la de la segunda
+var.test(x, y)
+t.test(x, y, var.equal=TRUE, alternative="less") # no rechazo la hipótesis nula de que la calificación de la primera muestra es mayor que la de la segunda
+t.test(x, y, var.equal=TRUE) # rechazo la hipótesis nula de igualdad ya que p-valor < 0.05
+```
+
+### Ejercicio 10.
+
+*Una empresa dispone de dos factorías en dos provincias diferentes. Los resultados de dos muestras de los salarios mensuales, expresados en miles de pesetas han sido: a) 163, 182, 175, 161, 159, 158, 149, 151, y b) 132, 151, 139, 147, 156, 158, 149, 181, 156, 153, 162, 152, 154, 166. Determine si hay diferencia significativa entre los salarios medios.*
+
+```{r ejer-8-bis, exercise=TRUE, exercise.lines = 5}
+
+```
+
+```{r ejer-8-bis-hint}
+x = c(163, 182, 175, 161, 159, 158, 149, 151)
+y = c(132, 151, 139, 147, 156, 158, 149, 181, 156, 153, 162, 152, 154, 166)
+var.test(x, y) # no rechazo la hipótesis nula de igualdad de varianzas
+t.test(x, y, var.equal=TRUE) # no rechazo la hipótesis nula de igualdad de medias
+# si no me especifican bada, usamos el 95% de confianza
+```
+
+### Ejercicio 11.
+
+*Se toma una muestra de jugadores de fútbol sobre su salario medido en millones de euros obteniendo: a) 60, 12, 5, 90, 6 y b) 4, 3, 40, 60, 35. ¿Se puede afirmar, al 99% de confianza, que el salario medio en ambos equipos coincide?*
+
+```{r ejer-9-bis, exercise=TRUE, exercise.lines = 5}
+
+```
+
+```{r ejer-9-bis-hint}
+x = c(60, 12, 50, 90, 60)
+y = c(4, 3, 4, 6, 3.5)
+var.test(x, y, conf.level = 0.99) # rechazo la hipótesis nula de igualdad de varianzas
+t.test(x, y) # rechazo la hipótesis nula de igualdad de medias
+```
+
