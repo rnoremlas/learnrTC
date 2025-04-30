@@ -1,0 +1,260 @@
+---
+title: "Distribuciones continuas"
+output: learnr::tutorial
+runtime: shiny_prerendered
+description: "Román Salmerón Gómez"
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+*Sólo hay una opción corrrecta en cada una de las siguientes preguntas. Para reiniciar la prueba pulse sobre __Star Over__.*
+
+*Os recomendamos que investiguéis aquellos comandos que no conozcáis usando la ayuda de **R**. Por ejemplo: help(Distributions).*
+
+### Ejercicio 1: Distribución uniforme.
+
+*Dada $X$ una variable aleatoria continua que toma valores en el intervalo real (a, b), se dice que se distribuye de forma uniforme, lo que se notará por X ∼ U(a, b), si y sólo si, su función de densidad responde a la expresión $f(x) = \frac{1}{b-a}$ si $x \in (a, b)$.*
+
+```{r ejer-1}
+quiz(
+  question("En tal caso:", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("Su media es (a+b)/2.", correct = TRUE),
+           answer("Su media es (b-a)^2/12.", correct = FALSE),
+           answer("Su función de distribución se obtiene derivando la función de densidad.", correct = FALSE),
+           answer("Es una variable discreta.", correct = FALSE)
+  ),
+  question("El caso particular U(0, 1):", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("La varianza es igual a 1/2.", correct = FALSE),
+    answer("La varianza es igual a 1/12.", correct = TRUE),
+    answer("La media es igual a 1/12.", correct = FALSE),
+    answer("Se conoce como normal tipificada.", correct = FALSE)
+  ), 
+  question("Para el caso particular U(0, 1), la probabilidad de que X sea mayor que 0.5...", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("Se calcularía con rnorm(0.5).", correct = FALSE),
+    answer("Se calcularía con punif(0.5).", correct = FALSE),
+    answer("Se calcularía con dunif(0.5).", correct = FALSE),
+    answer("Se calcularía con 1-punif(0.5).", correct = TRUE)
+  ), caption = ""
+)
+```
+
+*El número de automóviles que circulan por una plaza se considera que sigue una distribución uniforme. Si al cabo del día circulan como máximo 200 coches. ¿Cuál es la probabilidad de que en un día pasen como mínimo 100 coches? ¿Y entre 50 y 100?*
+
+```{r ejer-1-bis, exercise=TRUE, exercise.lines = 3}
+
+```
+
+```{r ejer-1-bis-hint}
+1-punif(100, min=0, max=200)
+punif(100, min=0, max=200) - punif(50, min=0, max=200)
+```
+
+*Un chico tarda entre 10 y 15 minutos en ir de su casa al cine. Si la película empieza a las 18:30h, ¿a qué hora como máximo debe salir de su casa para tener una probabilidad del 70% de no llegar tarde?*
+
+```{r ejer-1-tris, exercise=TRUE, exercise.lines = 2}
+
+```
+
+```{r ejer-1-tris-hint}
+qunif(0.7, min=10, max=15) # debe salir 13.5 minutos antes
+```
+
+### Ejercicio 2: Distribución exponencial
+
+*Dada $X$ una variable aleatoria continua que toma valores en los reales positivos, se dice que se distribuye según una exponencial de parámetro $\theta$, lo que se notará por $X ∼ Exp(\theta)$, si y sólo si, su función de densidad responde a la expresión $f(x) = \frac{1}{\theta} e ^{-\frac{x}{\theta}}$ si $x > 0$ o, de forma equivalente, $f(x) = \theta e ^{-\theta x}$ si $x > 0$.*
+
+```{r ejer-2}
+quiz(
+  question("Teniendo presente la primera expresión:", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("La media es *theta* y la varianza *theta^2*.", correct = TRUE),
+           answer("No es una verdadera función de densidad ya que la integral en todo su dominio es igual a 1.", correct = FALSE),
+           answer("No es una verdadera función de densidad ya que no es siempre positiva en su dominio.", correct = FALSE),
+           answer("La media es *1/theta* y la varianza *theta^2*.", correct = FALSE)
+  ),
+  question("La probabilidad de que X sea menor que 4, siendo X una exponencial de parámetro 5...", allow_retry = TRUE, random_answer_order = TRUE,
+    answer("Se calcularía con 1-rexp(4, rate=5).", correct = FALSE),
+    answer("Se calcularía con dexp(4, rate=1/5).", correct = FALSE),
+    answer("Se calcularía con pexp(4, rate=5)", correct = FALSE),
+    answer("Se calcularía con pexp(4, rate=1/5).", correct = TRUE)
+  ), caption = ""
+)
+```
+
+*Los clientes de una peluquería llegan aproximadamente cada 20 minutos. ¿Cuál es la probabilidad de que un cliente llegue en menos de 5 minutos? ¿Y en más de 30?*
+
+```{r ejer-2-bis, exercise=TRUE, exercise.lines = 3}
+
+```
+
+```{r ejer-2-bis-hint}
+pexp(5, rate=1/20)
+1-pexp(30, rate=1/20)
+```
+
+### Ejercicio 3: Distribución gamma
+
+*Dada $X$ una variable aleatoria continua que toma valores en los reales positivos, se dice que se distribuye según una exponencial de parámetros $\alpha$ y $\theta$, lo que se notará por $X ∼ G(\alpha, \theta)$, si y sólo si, su función de densidad responde a la expresión $f(x) = \frac{1}{\Gamma(\alpha) \theta^{\alpha}} x^{\alpha-1} e^{- \frac{x}{\theta}}$ si $x > 0$ donde $\Gamma(\alpha) = \int_{0}^{+\infty} x^{\alpha-1} e^{-x} dx$.*
+
+```{r ejer-3}
+quiz(
+  question("En tal caso:", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("La media es _alfa*theta_ y la varianza _alfa^(2) * theta^(2)_.", correct = FALSE),
+           answer("La exponencial es el caso particular en el que *alfa = 0*.", correct = FALSE),
+           answer("La media es _alfa*theta_ y la varianza _alfa^(2) * theta_.", correct = FALSE),
+           answer("Esta distribución se usa para modelar situaciones de tiempos entre eventos/llegadas.", correct = TRUE)
+  ),
+  question("La probabilidad de que X sea mayor que 4, siendo X una gamma de parámetros 2 y 5...", allow_retry = TRUE, random_answer_order = TRUE,
+    answer("Se calcularía con 1-pgamma(4, shape = 2, ratio=5).", correct = FALSE),
+    answer("Se calcularía con dgamma(4, shape = 2, ratio=1/5).", correct = FALSE),
+    answer("Se calcularía con 1-rgamma(4, shape = 2, ratio=5)", correct = FALSE),
+    answer("Se calcularía con 1-pgamma(4, shape = 2, ratio=1/5).", correct = TRUE)
+  ), caption = ""
+)
+```
+
+*Los clientes de una peluquería llegan aproximadamente cada 20 minutos. ¿Cuál es la probabilidad de que un cliente llegue en menos de 5 minutos? ¿Y en más de 30? (sí, es el mismo de antes)*
+
+```{r ejer-3-bis, exercise=TRUE, exercise.lines = 3}
+
+```
+
+```{r ejer-3-bis-hint}
+pgamma(5, shape=1, rate=1/20)
+1-pgamma(30, shape=1, rate=1/20)
+```
+
+### Ejercicio 4: Distribución normal
+
+*Dada $X$ una variable aleatoria continua que toma valores en los reales, se dice que se distribuye según una normal de parámetros $\mu$ y $\sigma^{2}$, lo que se notará por $X ∼ N(\mu, \sigma^{2})$, si y sólo si, su función de densidad responde a la expresión $f(x) = \frac{1}{\sigma \sqrt{2 \cdot \pi}} \cdot exp \left( - \frac{(x - \mu)^{2}}{2 \cdot \sigma^{2}} \right)$.*
+
+```{r ejer-4}
+quiz(
+  question("Indique la afirmación incorrecta:", allow_retry = TRUE, random_answer_order = TRUE,
+           answer("La propiedad de reproductividad indica que la combinación lineal de distribuciones normales no es una distribución normal.", correct = TRUE),
+           answer("El primer parámetro se identifica con la media poblacional, es decir, con la media de X.", correct = FALSE),
+           answer("El segundo parámetro se identifica con la varianza poblacional, es decir, con la varianza de X.", correct = FALSE),
+           answer("El segundo parámetro siempre es positivo.", correct = FALSE),
+           answer("El primer parámetro puede ser cualquier número real.", correct = FALSE)
+  ),
+  question("La tipificación de una distribución normal consiste en...", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("restar la media y dividir entre la desviación típica.", correct = TRUE),
+    answer("restar la media y dividir entre la varianza.", correct = FALSE),
+    answer("dividir entre la desviación típica y restar la media.", correct = FALSE),
+    answer("calcular probabilidades.", correct = FALSE)
+  ), caption = ""
+)
+```
+
+*Sean $X_{1} ∼ N(1, 2)$ y $X_{2} ∼ N(-3, 3)$, entonces se verifica que a) $3 \cdot X_{1} - 2 \cdot X_{2} \sim N(9, 30)$ y b) $2 \cdot X_{1} - X_{2} \sim N(5, 1)$.*
+
+```{r ejer-4-bis}
+quiz(
+  question("Indique la afirmación correcta:", allow_retry = TRUE, random_answer_order = TRUE,
+           answer("La afirmación a) es correcta y la b) incorrecta.", correct = TRUE),
+           answer("La afirmación a) es incorrecta y la b) correcta", correct = FALSE),
+           answer("Las afirmaciones a) y b) son correctas.", correct = FALSE),
+           answer("Las afirmaciones a) y b) son incorrectas.", correct = FALSE)
+  ),
+  question("Indique la afirmación correcta: La segunda combinación lineal se distribuye según una normal...", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("con media 5 y varianza 11.", correct = TRUE),
+    answer("con media 1 y varianza 11.", correct = FALSE),
+    answer("con media -2 y varianza 11.", correct = FALSE),
+    answer("con media 5 y varianza 1.", correct = FALSE)
+  ), 
+  question("Para la primera combinación lineal, la probabilidad de ser menor que 10 se calcularía...", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("con el comando pnorm(10, mean=9, sd=sqrt(30)).", correct = TRUE),
+    answer("con el comando pnorm(10, mean=9, sd=30).", correct = FALSE),
+    answer("con el comando 1-pnorm(10, mean=9, sd=sqrt(30)).", correct = FALSE),
+    answer("con el comando rnorm(10).", correct = FALSE)
+  ), caption = ""
+)
+```
+
+*Consideremos que las notas de cierta asignatura se distribuyen según una normal de media 7.8 y varianza 10. ¿Cuál es la probabilidad de que un estudiante tenga una nota entre 7.6 y 8? ¿Y más de 7.2 puntos? ¿Y menos de 7.5?*
+
+```{r ejer-4-tris, exercise=TRUE, exercise.lines = 4}
+
+```
+
+```{r ejer-4-tris-hint}
+pnorm(8, mean=7.8, sd=sqrt(10)) - pnorm(7.6, mean=7.8, sd=sqrt(10))
+1-pnorm(7.2, mean=7.8, sd=sqrt(10))
+pnorm(7.5, mean=7.8, sd=sqrt(10)) 
+```
+
+*Un centro universitario recibe 5.000 solicitudes de ingreso al primer curso de grado en Economía Cuántica. Si las calificaciones obtenidas por los aspirantes en una prueba de ingreso sigue una distribución normal de media 6.5 y desviación típica 2, ¿cuál es la calificación mínima que es necesaria obtener en esta prueba para ser admitido sabiendo que el centro sólo admite a 1.000 de los aspirantes?*
+
+```{r ejer-4-cuatris, exercise=TRUE, exercise.lines = 2}
+
+```
+
+```{r ejer-4-cuatris-hint}
+qnorm(0.8, mean=6.5, sd=2) # entran el 20% (1000/5000) de los mejores, es decir, nos piden el percentil 80
+```
+
+### Ejercicio 5: distribuciones asociadas a la normal
+
+```{r ejer-5}
+quiz(
+  question("Indique la afirmación correcta:", allow_retry = TRUE, random_answer_order = TRUE,
+           answer("La distribución chi-cuadrado de 'n' grados de libertad se construye sumando 'n' distribuciones (independientes) normales de media cero y varianza uno elevadas al cuadrado.", correct = TRUE),
+           answer("La distribución t de Student de 'n' grados de libertad se construye dividiendo una distribución normal de media cero y varianza uno entre una chi-cuadrado de 'n' grados de libertad dividida a su vez por los grados de libertad, además, ambas distribuciones han de ser independientes.", correct = FALSE),
+           answer("La distribución F de Snedecor se construye dividiendo dos distribuciones chi-cuadrado, las cuales, a su vez, están divididas entre sus grados de libertad. Los grados de libertad de la F de Snedecor coinciden con los grados de libertad de las chi-cuadrado usadas en su construcción.", correct = FALSE)
+  ),
+  question("Dada una chi-cuadrado con 10 grados de libertad, ¿como calcularía la probabilidad de que fuese mayor que 8?", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("Con el comando 1-pchisq(8, 10).", correct = TRUE),
+    answer("Con el comando pchisq(8, df=10).", correct = FALSE),
+    answer("Con el comando 1-qchisq(8, 10).", correct = FALSE),
+    answer("Con el comando rchisq(8, df=10).", correct = FALSE)
+  ), 
+  question("Dada una t de Student con 5 grados de libertad, ¿como calcularía la probabilidad de que fuese menor que 7?", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("Con el comando pt(7, df=5).", correct = TRUE),
+    answer("Con el comando 1-pt(7, df=5).", correct = FALSE),
+    answer("Con el comando 1-rt(7, 5).", correct = FALSE),
+    answer("Con el comando dt(7, df=10).", correct = FALSE)
+  ), 
+  question("Dada una F de Snedecor con 5 y 7 grados de libertad, ¿como calcularía la probabilidad de que fuese menor que 6?", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("Con el comando pf(6, df1=5, df2=7).", correct = TRUE),
+    answer("Con el comando 1-pf(6, 5, 7).", correct = FALSE),
+    answer("Con el comando pf(6, df1=7, df2=5).", correct = FALSE),
+    answer("Con el comando rf(6, df1=5, 7).", correct = FALSE)
+  ), caption = ""
+)
+```
+
+*Sea $X \sim \chi^{2}_{10}$, calcule $P [X \geq 12.44]$. ¿Cuál sería el valor de $x$ que verifica que $P[X \leq x] = 0.005$?*
+
+```{r ejer-5-bis, exercise=TRUE, exercise.lines = 2}
+
+```
+
+```{r ejer-5-bis-hint}
+1-pchisq(12.44, 10)
+qchisq(0.005, 10)
+```
+
+*Sea $X \sim t_{8}$, calcule $P [2 \leq X \leq 10]$. ¿Cuál sería el valor de $x$ que verifica que $P[X \geq x] = 0.05$?*
+
+```{r ejer-5-tris, exercise=TRUE, exercise.lines = 2}
+
+```
+
+```{r ejer-5-tris-hint}
+pt(10, 8) - pt(2, 8)
+qt(0.95, 8)
+```
+
+
+*Sea $X \sim F_{24, 40}$, calcule $P [X \leq 4]$. ¿Cuál sería el valor de $x$ que verifica que $P[X \leq x] = 0.05$?*
+
+```{r ejer-5-cuatris, exercise=TRUE, exercise.lines = 2}
+
+```
+
+```{r ejer-5-cuatris-hint}
+pf(4, 24, 40)
+qf(0.05, 24, 40)
+```

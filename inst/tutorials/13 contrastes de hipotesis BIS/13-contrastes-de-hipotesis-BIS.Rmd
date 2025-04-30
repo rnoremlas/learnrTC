@@ -1,0 +1,422 @@
+---
+title: "Cuestionario sobre contrastes de hipótesis paramétricos"
+output: learnr::tutorial
+runtime: shiny_prerendered
+description: "Irene García Garrido"
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(shiny)
+library(Ecdat)
+library(carData)
+library(TeachingDemos)
+
+# Cargamos los datos
+data(Housing)
+data(Salaries)
+
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Parte 1: pruebas tipo test
+
+*Sólo hay una opción correcta en cada una de las siguientes preguntas. Para reiniciar la prueba pulse sobre **Star Over**.*
+
+*Os recomendamos que investiguéis aquellos comandos que no conozcáis usando la ayuda de **R**. Por ejemplo: help(...).*
+
+### Pregunta 1
+
+```{r pr1}
+quiz(
+  question("¿Qué hipótesis es indispensable para realizar una contraste de hipótesis paramétrico para la diferencia de medias a partir de dos muestras independientes?",
+           answer("Distribución uniforme de los datos", correct = FALSE),
+           answer("Distribución normal de los datos", correct = TRUE),
+           answer("Que la muestra tenga más de 30 observaciones", correct = FALSE),
+           answer("Que las variables sean categóricas", correct = FALSE)
+  ),caption = ""
+)
+```
+
+### Pregunta 2
+
+```{r pr2}
+quiz(
+  question("¿Cuál es la hipótesis nula en un contraste t para dos muestras independientes?",
+           answer("Las medias poblacionales son iguales", correct = TRUE),
+           answer("Las varianzas poblacionales son iguales", correct = FALSE),
+           answer("La media poblacional es mayor que cero", correct = FALSE),
+           answer("La diferencia de medias poblacionales es distinta de cero", correct = FALSE)
+  ),caption = ""
+)
+```
+
+### Pregunta 3
+
+```{r pr3}
+quiz(
+  question("¿Qué condición se debe cumplir para realizar un ANOVA?",
+           answer("Las muestras tienen que ser dependientes", correct = FALSE),
+           answer("Los tamaños de muestra tienen que ser iguales en todos los grupos", correct = FALSE),
+           answer("Las varianzas tienen que ser iguales", correct = TRUE),
+           answer("Las varianzas tienen que ser diferentes", correct = FALSE)
+  ),caption = ""
+)
+```
+
+### Pregunta 4
+
+```{r pr4}
+quiz(
+  question("¿Qué indica un p-valor menor a 0.05 en un contraste de hipótesis?",
+           answer("Se acepta la hipótesis nula", correct = FALSE),
+           answer("Los datos no son normales", correct = FALSE),
+           answer("No se puede rechazar la hipótesis nula", correct = FALSE),
+           answer("Se rechaza la hipótesis nula", correct = TRUE)
+  ),caption = ""
+)
+```
+
+### Pregunta 5
+
+```{r pr5}
+quiz(
+  question("Para hacer un contraste de hipótesis para la diferencia de medias poblacionales en el caso en que las varianzas poblacionales sean desconocidas y distintas en dos muestras independientes, se recomienda usar:",
+           answer("La aproximación t-test de Welch", correct = TRUE),
+           answer("El test chi-cuadrado", correct = FALSE),
+           answer("ANOVA", correct = FALSE),
+           answer("La aproximación a la normal", correct = FALSE)
+  ),caption = ""
+)
+```
+
+### Pregunta 6
+
+```{r pr6}
+quiz(
+  question("En un contraste de hipótesis bilateral, la región crítica se sitúa:",
+           answer("Solo en el extremo superior", correct = FALSE),
+           answer("Solo en el extremo inferior", correct = FALSE),
+           answer("En ambos extremos de la distribución", correct = TRUE),
+           answer("En el centro de la distribución", correct = FALSE)
+  ),caption = ""
+)
+```
+
+### Pregunta 7
+
+```{r pr7}
+quiz(
+  question("Si los datos no son normales, ¿qué alternativa paramétrica podríamos considerar para hacer un contraste de hipótesis?",
+           answer("Ninguna, deberíamos usar pruebas no paramétricas", correct = TRUE),
+           answer("ANOVA", correct = FALSE),
+           answer("t-test", correct = FALSE),
+           answer("La aproximación t-test de Welch", correct = FALSE)
+  ),caption = ""
+)
+```
+
+### Pregunta 8
+
+```{r pr8}
+quiz(
+  question("La hipótesis alternativa en un contraste de hipótesis bilateral para la diferencia de medias poblacionales indica:",
+           answer("Diferencia de medias solo positiva", correct = FALSE),
+           answer("Diferencia de medias solo negativa", correct = FALSE),
+           answer("Que las medias son iguales", correct = FALSE),
+           answer("Diferencia de medias en cualquier dirección", correct = TRUE)
+  ),caption = ""
+)
+```
+
+### Pregunta 9
+
+```{r pr9}
+quiz(
+  question("El error tipo I en un contraste de hipótesis se produce cuando:",
+           answer("No se rechaza la hipótesis nula siendo falsa", correct = FALSE),
+           answer("Se rechaza la hipótesis nula siendo cierta", correct = TRUE),
+           answer("Se rechaza la hipótesis nula siendo falsa", correct = FALSE),
+           answer("No se rechaza la hipótesis nula siendo cierta", correct = FALSE)
+  ),caption = ""
+)
+```
+
+### Pregunta 10
+
+```{r pr10}
+quiz(
+  question("¿Cuál sería una hipótesis nula típica en un contraste de hipótesis de la varianza de una población?",
+           answer("Las varianzas de dos poblaciones son iguales", correct = FALSE),
+           answer("La varianza poblacional es mayor que un valor específico", correct = FALSE),
+           answer("La varianza poblacional es igual a un valor específico", correct = TRUE),
+           answer("La media poblacional es igual a un valor específico", correct = FALSE)
+  ),caption = ""
+)
+```
+
+## Parte 2: trabajamos con R
+
+*Para poder trabajar correctamente en los siguientes ejercicios, ha de asegurarse que están instalados los paquetes **Ecdat**, **TeachingDemos** y **carData**. *
+
+*Para reiniciar la pregunta pulse sobre **Star Over**.*
+
+*Os recomendamos que investiguéis aquellos comandos que no conozcáis usando la ayuda de **R**.*
+
+### Pregunta 1
+
+*En la base de datos **Housing** de la librería de R **Ecdat** tiene información, entre otras variables, sobre el precio de cada vivienda (denominada **price**). Para más detalles ejecutar help(Housing).*
+
+*Realiza el contraste de hipótesis apropiado para comprobar si el precio medio de las viviendas es significativamente superior a 70000 dólares, al nivel de significación del 10\%.*
+
+```{r prR1-1, exercise=TRUE}
+data("Housing", package = "Ecdat")
+head(Housing)
+```
+
+```{r prR1-1-hint}
+"Usa la función `t.test()` para realizar el contraste."
+```
+
+```{r prR1-1-solution}
+t.test(Housing$price, alternative ="greater", mu=70000, conf.level=0.90)
+```
+
+```{r prR12}
+quiz(
+  question("El p-valor obtenido en el contraste anterior es:",
+           answer("0.9496", correct = TRUE),
+           answer("0.0504", correct = FALSE),
+           answer("0.1008", correct = FALSE),
+           answer("Ninguno de los anteriores", correct = FALSE)
+  ),caption = ""
+)
+```
+
+```{r prR13}
+quiz(
+  question("Observando el p-valor obtenido concluimos que:",
+           answer("No se puede rechazar la hipótesis nula y, por tanto, no hay suficiente evidencia para afirmar que el precio medio de las viviendas sea significativamente superior a 70000 dólares", correct = TRUE),
+           answer("Se rechaza la hipótesis nula y, por tanto, el precio medio de las viviendas es significativamente superior a 70000 dólares", correct = FALSE)
+  ),caption = ""
+)
+```
+
+*Realiza el contraste de hipótesis apropiado para comprobar si la desviación típica de los precios (price) es significativamente diferente de 25000 dólares, al nivel de significación del 10\%.*
+
+```{r prR1-2, exercise=TRUE}
+
+```
+
+```{r prR1-2-hint}
+"Debes instalar y cargar el paquete `TeachingDemos` y usar la función `sigma.test()` para realizar el contraste."
+```
+
+
+```{r prR1-2-solution}
+library(TeachingDemos)
+sigma.test(Housing$price, alternative = "two.sided", sigma = 25000, conf.level = 0.90)
+```
+
+```{r prR25}
+quiz(
+  question("Observando el p-valor obtenido concluimos que:",
+           answer("No se puede rechazar la hipótesis nula y, por tanto, no hay suficiente evidencia para afirmar que la desviación típica de los precios sea significativamente diferente de 25000 dólares", correct = FALSE),
+           answer("Se rechaza la hipótesis nula y, por tanto, la desviación típica de los precios es significativamente diferente de 25000 dólares", correct = TRUE)
+  ),caption = ""
+)
+```
+
+
+### Pregunta 2
+
+*En la base de datos **Salaries** de la librería de R **carData** tiene información sobre 6 variables, entre las que se encuentra el salario (denominada **salary**) de 397 profesores universitarios, su rango académico (**rank**), la disciplina (**discipline**) a la que se dedican, el sexo (**sex**) y los años de servicio. Para más detalles ejecutar help(Salaries).*
+
+*Realiza el contraste de hipótesis apropiado para comprobar si las varianzas de los sueldos (salary) de hombres y mujeres son iguales, al nivel de significación del 5\%.*
+
+```{r prR2-1, exercise=TRUE}
+data("Salaries", package = "carData")
+head(Salaries)
+```
+
+```{r prR2-1-hint}
+"Usa la función `var.test()` para realizar el contraste."
+```
+
+```{r prR2-1-solution}
+var.test(Salaries$salary~Salaries$sex, alternative ="two.sided", conf.level=0.95)
+```
+
+```{r prR22}
+quiz(
+  question("Observando el p-valor concluimos que:",
+           answer("No se puede rechazar la hipótesis nula y, por tanto, las varianzas de los sueldos de hombres y mujeres se suponen iguales", correct = TRUE),
+           answer("Se rechaza la hipótesis nula y, por tanto, las varianzas de los sueldos de hombres y mujeres son distintos", correct = FALSE)
+  ),caption = ""
+)
+```
+
+
+*Realiza el contraste de hipótesis apropiado para comprobar si existe diferencia significativa entre los sueldos (salary) medios de hombres y mujeres, al nivel de significación del 5\%.*
+
+```{r prR2-2, exercise=TRUE}
+
+```
+
+```{r prR2-2-hint}
+"Usa la función `t.test()` para realizar el contraste."
+```
+
+
+```{r prR2-2-solution}
+t.test(Salaries$salary~Salaries$sex, alternative ="two.sided", mu = 0, var.equal = TRUE, conf.level=0.95)
+```
+
+```{r prR21}
+quiz(
+  question("El p-valor obtenido en el contraste anterior es:",
+           answer("0.002664", correct = FALSE),
+           answer("0.005667", correct = TRUE),
+           answer("Ninguno de los anteriores", correct = FALSE)
+  ),caption = ""
+)
+```
+
+```{r prR23}
+quiz(
+  question("Observando el p-valor obtenido concluimos que:",
+           answer("No se puede rechazar la hipótesis nula y, por tanto, no hay suficiente evidencia para afirmar que los sueldos medios de hombres sean distintos a los de mujeres", correct = FALSE),
+           answer("Se rechaza la hipótesis nula y, por tanto, los sueldos medios de hombres y mujeres son distintos", correct = TRUE)
+  ),caption = ""
+)
+```
+
+*Realiza el contraste de hipótesis apropiado para comprobar si los sueldos medios de los hombres son superiores a los de las mujeres, al nivel de significación del 5\%. (Recuerda que el orden de las categorías de una variable es, por defecto, en orden alfabético o numérico).*
+
+```{r prR2-3, exercise=TRUE}
+
+```
+
+```{r prR2-3-hint}
+"debes cambiar el argumento `alternative` de la función anterior."
+```
+
+
+```{r prR2-3-solution}
+t.test(Salaries$salary~Salaries$sex, alternative ="less", mu = 0, var.equal = TRUE, conf.level=0.95)
+```
+
+```{r prR24}
+quiz(
+  question("Observando el p-valor obtenido concluimos que:",
+           answer("No se puede rechazar la hipótesis nula y, por tanto, no hay suficiente evidencia para afirmar que los sueldos medios de hombres sean superiores a los de mujeres", correct = TRUE),
+           answer("Se rechaza la hipótesis nula y, por tanto, los sueldos medios de  hombres son mayores que los de mujeres", correct = FALSE)
+  ),caption = ""
+)
+```
+
+### Pregunta 3
+
+*Una cámara de comercio local desea comprobar si la proporción de pequeños empresarios que considera que la inflación está afectando significativamente a sus ventas ha cambiado con respecto al año pasado. Para ello se realiza una encuesta a 200 pequeños empresarios y se observa que 130 de ellos afirman que la inflación está afectando a sus ventas. Un economista sostiene que esta proporción es distinta al 60% reportado el año anterior.*
+
+```{r prRA}
+quiz(
+  question("¿Qué hipótesis nula y alternativa se debería plantear para contrastar esta afirmación al 5% de nivel de significación?",
+           answer("H₀: p ≠ 0.60 ; H₁: p = 0.60", correct =FALSE),
+           answer("H₀: p = 0.65 ; H₁: p ≠ 0.65", correct = FALSE),
+           answer("H₀: p = 0.60 ; H₁: p ≠ 0.60", correct =TRUE),
+           answer("H₀: p = 0.60 ; H₁: p < 0.60", correct = FALSE)
+           ),caption = ""
+)
+```
+
+*Realizar el contraste de hipótesis apropiado para contrastar la hipótesis correcta, al nivel de significación del 5\%*
+
+```{r prRA-1, exercise=TRUE}
+
+```
+
+```{r prRA-1-hint}
+"Usa la función `prop.test()` para realizar el contraste."
+```
+
+
+```{r prRA-1-solution}
+prop.test(x = 130, n = 200, p = 0.60, alternative = "two.sided", conf.level = 0.95)
+```
+
+```{r prRA1}
+quiz(
+  question("El p-valor obtenido en el contraste anterior es:",
+           answer("0.1703", correct = TRUE),
+           answer("1", correct = FALSE),
+           answer("1.8802", correct = FALSE),
+           answer("Ninguno de los anteriores", correct = FALSE)
+  ),caption = ""
+)
+```
+
+```{r prRA2}
+quiz(
+  question("Observando el p-valor obtenido concluimos que:",
+           answer("No se puede rechazar la hipótesis nula y, por tanto, no hay suficiente evidencia para afirmar que la inflación esté afectando significativamente a las ventas", correct = TRUE),
+           answer("Se rechaza la hipótesis nula y, por tanto, la inflación está afectando significativamente a las ventas de estos pequeños empresarios", correct = FALSE)
+  ),caption = ""
+)
+```
+
+### Pregunta 4
+
+*Una organización de consumidores desea comparar la proporción de clientes satisfechos entre dos cadenas de supermercados. Se realizó una encuesta en la que se entrevistaron a 200 clientes de la cadena A, de los cuales 120 se mostraron satisfechos, y a 180 clientes de la cadena B, de los cuales 99 se mostraron satisfechos. Se desea contrastar, al 5% de nivel de significación, si existe diferencia significativa entre las proporciones de clientes satisfechos de ambas cadenas.*
+
+```{r prRB}
+quiz(
+  question("¿Qué hipótesis nula y alternativa se debería plantear para realizar este contraste al 5% de nivel de significación?",
+           answer("H₀: p₁ = p₂ ; H₁: p₁ ≠ p₂", correct =TRUE),
+           answer("H₀: p₁ ≠ p₂ ; H₁: p₁ = p₂", correct = FALSE),
+           answer("H₀: p₁ > p₂ ; H₁: p₁ ≤ p₂", correct =FALSE),
+           answer("H₀: p₁ ≤ p₂ ; H₁: p₁ > p₂", correct = FALSE)
+           ),caption = ""
+)
+```
+
+*Realizar el contraste de hipótesis apropiado para contrastar la hipótesis correcta, al nivel de significación del 5\%*
+
+```{r prRB-1, exercise=TRUE}
+
+```
+
+```{r prRB-1-hint}
+"Define los éxitos y fracasos de cada muestra y define una tabla de la siguiente forma:"
+tabla<-matrix(c(exitos1,exitos2,fracasos1,fracasos2),2,2)
+"Usa la función `prop.test()` para realizar el contraste."
+```
+
+
+```{r prRB-1-solution}
+exitos1<-120
+fracasos1<-200-120
+exitos2<-99
+fracasos2<-180-99
+tabla<-matrix(c(exitos1,exitos2,fracasos1,fracasos2),2,2) 
+prop.test(tabla, alternative="two.sided", conf.level = 0.95)
+```
+
+```{r prRB1}
+quiz(
+  question("El p-valor obtenido en el contraste anterior es:",
+           answer("0.6701", correct = FALSE),
+           answer("0.3784", correct = TRUE),
+           answer("Ninguno de los anteriores", correct = FALSE)
+  ),caption = ""
+)
+```
+
+```{r prRB2}
+quiz(
+  question("Observando el p-valor obtenido concluimos que:",
+           answer("No se puede rechazar la hipótesis nula y, por tanto, no hay suficiente evidencia para afirmar que existan diferencias significativas entre las proporciones de clientes satisfechos de ambas cadenas", correct = TRUE),
+           answer("Se rechaza la hipótesis nula y, por tanto, existen diferencias significativas entre las proporciones de clientes satisfechos de ambas cadenas", correct = FALSE)
+  ),caption = ""
+)
+```

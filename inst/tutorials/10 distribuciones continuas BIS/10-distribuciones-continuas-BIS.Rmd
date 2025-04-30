@@ -1,0 +1,303 @@
+---
+title: "Distribuciones Continuas"
+output: learnr::tutorial
+runtime: shiny_prerendered
+description: "Beatriz Cobo Rodríguez"
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(shiny)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+<!-- ## Test de Distribuciones Continuas -->
+
+## Parte 1: pruebas tipo test
+
+*Marca la opción correcta en cada una de las siguientes preguntas. Para reiniciar la prueba pulse sobre __Star Over__.*
+
+*Os recomendamos que investiguéis aquellos comandos que no conozcáis usando la ayuda de **R**. Por ejemplo: help(...)*
+
+
+## Pregunta 1: Opción Múltiple
+```{r pt1}
+quiz(question(
+  "¿Cuál de las siguientes distribuciones es continua?",
+  answer("Distribución Normal", correct = TRUE),
+  answer("Distribución Binomial"),
+  answer("Distribución de Poisson"),
+  answer("Distribución Geométrica")),
+  caption = ""
+)
+```
+
+## Pregunta 2: Selección Múltiple
+```{r pt2}
+quiz(question(
+  "Selecciona todas las distribuciones continuas:",
+  answer("Distribución Exponencial", correct = TRUE),
+  answer("Distribución Beta", correct = TRUE),
+  answer("Distribución de Poisson"),
+  answer("Distribución Hipergeométrica")),
+   caption = ""
+)
+```
+
+## Pregunta 3: Verdadero/Falso
+```{r pt3}
+quiz(question(
+  "La distribución Exponencial es utilizada frecuentemente para modelar tiempos de espera entre eventos en un proceso de Poisson.",
+  answer("Verdadero", correct = TRUE),
+  answer("Falso")),
+   caption = ""
+)
+```
+
+## Pregunta 4: Verdadero/Falso
+```{r pt4}
+quiz(question(
+  "La distribución Uniforme continua tiene la misma probabilidad en todos sus valores posibles.",
+  answer("Verdadero", correct = TRUE),
+  answer("Falso")),
+  caption = ""
+)
+```
+
+## Pregunta 5: Verdadero/Falso
+```{r pt5}
+quiz(question(
+  "La distribución Beta se usa comúnmente para modelar probabilidades y proporciones.",
+ answer("Verdadero", correct = TRUE),
+  answer("Falso")),
+  caption = ""
+)
+```
+
+## Pregunta 6: Opción Múltiple
+```{r pt6}
+quiz(question(
+  "Si una variable aleatoria sigue una distribución normal estándar, ¿cuál es su media y desviación estándar?",
+  answer("Media = 0, Desviación estándar = 1", correct = TRUE),
+  answer("Media = 1, Desviación estándar = 0"),
+  answer("Media = 0, Desviación estándar = 0"),
+  answer("Media = 1, Desviación estándar = 1")),
+   caption = ""
+)
+```
+
+## Pregunta 7: Opción Múltiple
+```{r pt7}
+quiz(question(
+  "¿Cuál de estas distribuciones es simétrica?",
+  answer("Distribución Normal", correct = TRUE),
+  answer("Distribución Chi-cuadrado"),
+  answer("Distribución F de Snedecor"),
+  answer("Distribución T de Student", correct=TRUE)),
+  caption = ""
+)
+```
+
+## Pregunta 8: Opción Múltiple
+```{r pt8}
+quiz(question(
+  "¿Qué distribución se usa para modelar la varianza de una población?",
+  answer("Distribución Chi-cuadrado", correct = TRUE),
+  answer("Distribución Normal"),
+  answer("Distribución Poisson"),
+  answer("Distribución Exponencial")),
+  caption = ""
+)
+```
+
+## Pregunta 9: Verdadero/Falso
+```{r pt9}
+quiz(question(
+  "La distribución de T de Student se utiliza para estimar la media poblacional cuando la varianza es desconocida.",
+ answer("Verdadero", correct = TRUE),
+  answer("Falso")),
+  caption = ""
+)
+```
+
+## Pregunta 10: Opción Múltiple
+```{r pt10}
+quiz(question(
+  "¿Qué distribución se usa para modelar el tiempo hasta el primer fallo de un sistema?",
+  answer("Distribución Exponencial", correct = TRUE),
+  answer("Distribución Normal"),
+  answer("Distribución Binomial"),
+  answer("Distribución Uniforme")),
+  caption = ""
+)
+```
+
+## Parte 2: trabajamos con R
+
+## Pregunta 1: Simulación de una variable normal
+```{r pc1}
+quiz(question(
+  "Genera 100 valores aleatorios de una distribución normal con media 10 y desviación estándar 2 en R. ¿Cuál de los siguientes códigos es correcto?",
+  answer("rnorm(100, mean = 10, sd = 2)", correct = TRUE),
+  answer("runif(100, min = 10, max = 2)"),
+  answer("rpois(100, lambda = 10)"),
+  answer("rbeta(100, shape1 = 10, shape2 = 2)")),
+  caption = ""
+)
+```
+
+## Pregunta 2: Cálculo de probabilidades de una distribución normal
+ *Si X sigue una distribución normal con media 50 y varianza, ¿cuál es la probabilidad de que X sea menor que 60?*
+```{r pc2, exercise=TRUE}
+
+```
+
+```{r pc2-hint}
+"Usa la función `pnorm()` para calcular la probabilidad de una variable normal."
+```
+
+```{r pc2-solution}
+solution = "pnorm(60, mean = 50, sd = 4)"
+```
+
+## Pregunta 3: Simulación de una variable uniforme
+*Genera 50 valores aleatorios de una distribución uniforme entre 0 y 1.*
+```{r pc3, exercise=TRUE}
+
+```
+
+```{r pc3-hint}
+"Usa la función `runif()` para generar 50 valores aleatorios de una distribución uniforme."
+```
+
+```{r pc3-solution}
+solution = "runif(50, min = 0, max = 1)"
+```
+
+## Pregunta 4: Media de una muestra normal
+*Calcula la media de una muestra de 100 valores generados con distribución normal de media 5 y desviación estándar 2.*
+```{r pc4, exercise=TRUE}
+
+```
+
+```{r pc4-hint}
+"Usa la función `rnorm()` para generar valores aleatorios de una distribución normal y la función `mean()` para calcular la media de la variable generada."
+```
+
+```{r pc4-solution}
+solution = "mean(rnorm(100, mean = 5, sd = 2))"
+```
+
+## Pregunta 5: Función de densidad de una distribución normal
+*Evalúa la función de densidad de una distribución normal estándar en x = 1.*
+
+```{r pc5, exercise=TRUE}
+
+```
+
+```{r pc5-hint}
+"Usa la función `dnorm()` para calcular la densidad de una distribución normal."
+```
+
+```{r pc5-solution}
+solution = "dnorm(1, mean = 0, sd = 1)"
+```
+
+## Pregunta 6: Simulación de una variable Gamma
+*Genera 200 valores aleatorios de una distribución Gamma con forma 2 y escala 3.*
+```{r pc6, exercise=TRUE}
+
+```
+
+```{r pc6-hint}
+"Usa la función `rgamma()` para generar valores aleatorios de una distribución Gamma."
+```
+
+```{r pc6-solution}
+solution = "rgamma(200, shape = 2, scale = 3)"
+```
+
+## Pregunta 7: Simulación de una variable Beta
+*Genera 150 valores aleatorios de una distribución Beta con parámetros shape1 = 2 y shape2 = 5.*
+```{r pc7, exercise=TRUE}
+
+```
+
+```{r pc7-hint}
+"Usa la función `rbeta()` para generar valores aleatorios de una distribución Beta."
+```
+
+```{r pc7-solution}
+solution = "rbeta(150, shape1 = 2, shape2 = 5)"
+```
+
+## Pregunta 8: Función de densidad para la distribución exponencial
+*Calcula la función de densidad para una distribución exponencial con lambda = 2 en x = 3.*
+```{r pc8, exercise=TRUE}
+
+```
+
+```{r pc8-hint}
+"Usa la función `dexp()` para calcular la densidad para una distribución exponencial."
+```
+
+```{r pc8-solution}
+solution = "dexp(3, rate = 2)"
+```
+
+## Pregunta 9: Probabilidad acumulada en una distribución Gamma
+*Calcula la probabilidad de que una variable Gamma con shape = 3 y scale = 2 sea menor o igual a 5.*
+```{r pc9, exercise=TRUE}
+
+```
+
+```{r pc9-hint}
+"Usa la función `pgamma()` para calcular la probabilidad de una variable Gamma."
+```
+
+```{r pc9-solution}
+solution = "pgamma(5, shape = 3, scale = 2)"
+```
+
+## Pregunta 10: Cuantil en una distribución Beta
+*Encuentra el percentil 75 de una distribución Beta con parámetros shape1 = 2 y shape2 = 5.*
+```{r pc10, exercise=TRUE}
+
+```
+
+```{r pc10-hint}
+"Usa la función `qbeta()` para calcular el percentil de una distribución Beta."
+```
+
+```{r pc10-solution}
+solution = "qbeta(0.75, shape1 = 2, shape2 = 5)"
+```
+
+
+## Pregunta 11: Cuantil en una distribución t de Student
+*Calcula el cuantil 95 de una distribución t de Student con 10 grados de libertad.*
+```{r pc11, exercise=TRUE}
+
+```
+
+```{r pc11-hint}
+"Usa la función `qt()` para calcular el cuantil de una distribución t de Student"
+```
+
+```{r pc11-solution}
+solution = "qt(0.95, df = 10)"
+```
+
+## Pregunta 12: Probabilidad acumulada en una distribución F de Snedecor
+*Calcula la probabilidad de que una variable con distribución F de Snedecor con 5 y 10 grados de libertad sea menor que 2.5.*
+```{r pc12, exercise=TRUE}
+
+```
+
+```{r pc12-hint}
+"Usa la función `pf()` para calcular la probabilidad de una variable con distribución F de Snedecor."
+```
+
+```{r pc12-solution}
+solution = "pf(2.5, df1 = 5, df2 = 10)"
+```

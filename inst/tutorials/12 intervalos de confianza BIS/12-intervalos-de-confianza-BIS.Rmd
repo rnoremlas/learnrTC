@@ -1,0 +1,355 @@
+---
+title: "Cuestionario sobre Intervalos de Confianza"
+output: learnr::tutorial
+runtime: shiny_prerendered
+description: "Rosaura Fernández Pascual"
+---
+```{r setup, include=FALSE}
+install.packages("learnr",  contriburl = contrib.url(repos="https://cloud.r-project.org", type="source"))
+install.packages("Ecdat", contriburl = contrib.url(repos="https://cloud.r-project.org", type="source"))
+library(learnr)
+library(shiny)
+library(Ecdat)
+library(TeachingDemos)
+
+# Cargamos los datos
+data(Housing)
+
+
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Parte 1: pruebas tipo test
+
+*Sólo hay una opción correcta en cada una de las siguientes preguntas. Para reiniciar la prueba pulse sobre __Star Over__.*
+
+
+### Pregunta 1.
+
+```{r pr1}
+quiz(
+  question("Cuanto mayor sea el nivel de significación establecido, mayor será el intervalo de confianza calculado para un parámetro de la población...",
+    answer("Falso", correct = TRUE,
+           message = "¡Correcto! Al aumentar el nivel de significación, decrece el tamaño del IC."),
+    answer("Verdadero", correct = FALSE,
+           message = "Incorrecto. A menor nivel de significación (mayor nivel de confianza), el IC se amplía.")
+  ), caption = ""
+)
+```
+
+### Pregunta 2.
+
+```{r pr2}
+quiz(
+question("Manteniendo constantes todos los factores excepto el nivel de confianza, ¿qué estimación por intervalos será más precisa?",
+  answer("Al 95%", correct = TRUE,
+         message = "¡Correcto! "),
+  answer("Al 99%", correct = FALSE,
+         message = "Incorrecto. La estimación serámás precisa cuanto menor sea el nivel de confianza."),
+  answer("La precisión no se relaciona con el nivel de confianza", correct = FALSE,
+         message = "Incorrecto.La estimación será más precisa cuanto menor sea el nivel de confianza.")
+),caption = ""
+)
+```
+
+### Pregunta 3.
+
+```{r pr3}
+quiz(
+question("Si se desea mayor precisión en la estimación por intervalos, ¿qué se debe hacer?",
+    answer("Aumentar el nivel de confianza", correct = FALSE,
+         message = "Incorrecto. Aumentar la confianza amplía el intervalo."),
+    answer("Disminuir el nivel de confianza", correct = TRUE,
+         message = "¡Correcto! Menor nivel, implica menor amplitud y por tanto mayor precisión (pero menos confianza)."),
+  answer("Usar la misma muestra varias veces", correct = FALSE,
+         message = "Incorrecto. Eso no mejora la precisión del intervalo.")
+),caption = ""
+)
+```
+
+### Pregunta 4.
+
+```{r pr4}
+quiz(
+question("¿Qué afirmación es verdadera sobre un intervalo de confianza al 95%?",
+  answer("El 95% de las muestras generarán intervalos que contienen el parámetro real", correct = TRUE,
+         message = "¡Correcto! Ese es el significado del 95% de confianza."),
+  answer("Existe un 95% de probabilidad de que el parámetro esté en el intervalo calculado", correct = FALSE,
+         message = "Incorrecto. La probabilidad se refiere a las muestras, no a un intervalo ya calculado."),
+  answer("El intervalo siempre contiene el valor verdadero", correct = FALSE,
+         message = "Incorrecto. Puede que el parámetro no esté contenido en un intervalo individual.")
+),caption = ""
+)
+```
+### Pregunta 5.
+
+```{r pr5}
+quiz(
+question("¿Qué componente influye directamente en la anchura de un intervalo de confianza?",
+  answer("El valor de la media", correct = FALSE,
+         message = "Incorrecto. La media afecta la ubicación, no la amplitud."),
+  answer("La variable dependiente", correct = FALSE,
+         message = "Incorrecto. No influye directamente en la anchura."),
+  answer("El nivel de confianza", correct = TRUE,
+         message = "¡Correcto! A mayor nivel de confianza, mayor amplitud.")
+),caption = ""
+)
+```
+
+### Pregunta 6.
+
+```{r pr6}
+quiz(
+question("¿Qué ocurre con la amplitud de un intervalo de confianza cuando aumentamos el tamaño de la muestra?",
+    answer("Aumenta", correct = FALSE,
+         message = "Incorrecto. A mayor tamaño muestral, menor amplitud."),
+    answer("Disminuye", correct = TRUE,
+         message = "¡Correcto! Un mayor tamaño muestral reduce la variabilidad y la amplitud del intervalo."),
+  answer("Permanece constante", correct = FALSE,
+         message = "Incorrecto. La amplitud depende del tamaño muestral.")
+),caption = ""
+)
+```
+
+### Pregunta 7.
+
+```{r pr7}
+quiz(
+  question("Hemos estimado en una muestra aleatoria de 20 sujetos la media y la desviación típica de sus puntuaciones en un test verbal, obteniendo una media de 7 y una varianza de 12. Esta variable está medida a nivel de intervalo y se distribuye normalmente en la población. Asumiendo un nivel de confianza del 99 %, ¿qué tamaño aproximado debe tener la muestra para que la media muestral no se aleje más de ±1 punto de la media poblacional?",
+  answer("A) 104", correct = FALSE,
+         message = "Incorrecto. Revisa el cálculo con la fórmula del tamaño muestral para estimar una media."),
+  answer("B) 99", correct = FALSE,
+         message = "Incorrecto. El valor más cercano según el cálculo es 80."),
+  answer("C) 80", correct = TRUE,
+         message = "¡Correcto!")
+), caption = ""
+)
+```
+
+### Pregunta 8.
+
+```{r pr8}
+quiz(
+question("Sabemos que la variable “rendimiento académico” se distribuye normalmente en la población de estudiantes de Bachillerato en España, pero no conocemos la varianza. Un investigador toma una muestra aleatoria de 400 estudiantes y obtiene una media de 20, con una cuasivarianza de 4. ¿Cuál de las siguientes opciones expresa el valor aproximado del límite inferior del intervalo de confianza para un nivel de significación 0,05?",
+  answer("A) 19,8", correct = TRUE,
+         message = "¡Correcto! El límite inferior aproximado se calcula usando la distribución t de Student."),
+  answer("B) 18,2", correct = FALSE,
+         message = "Incorrecto. Ese valor está muy por debajo del intervalo esperado."),
+  answer("C) 16,08", correct = FALSE,
+         message = "Incorrecto. Revisa la fórmula del intervalo de confianza para media con varianza desconocida.")
+), caption = ""
+)
+```
+### Pregunta 9.
+
+```{r pr9}
+quiz(
+question("Un investigador toma una muestra aleatoria de 400 estudiantes de Bachillerato y obtiene una media de rendimiento académico de 20, con una cuasivarianza de 4. Suponiendo normalidad y un nivel de significación 0,05, ¿cuál es el valor aproximado del límite superior del intervalo de confianza para la media poblacional?",
+  answer("A) 20,20", correct = TRUE,
+         message = "¡Correcto! Se calcula con la distribución t de Student y el error estándar."),
+  answer("B) 20,40", correct = FALSE,
+         message = "Incorrecto. Ese valor está por encima del intervalo calculado."),
+  answer("C) 19,00", correct = FALSE,
+         message = "Incorrecto. Ese valor corresponde a una estimación más baja.")
+), caption = ""
+)
+```
+
+### Pregunta 10.
+
+```{r pr10}
+quiz(
+question("En una muestra de 100 sujetos fumadores, 24 de ellos son hombres. A un nivel de confianza al 95%, ¿cuál es el intervalo de confianza aproximado para la proporción de fumadores varones?",
+    answer("b) (0,17 ; 0,31)", correct = FALSE,
+         message = "Incorrecto. Ese intervalo no refleja el valor exacto calculado."),
+    answer("a) (0,16 ; 0,32)", correct = TRUE,
+         message = "¡Correcto! Se trata del intervalo estimado con aproximación normal."),
+  answer("d) (0,232 ; 0,248)", correct = FALSE,
+         message = "Incorrecto. Ese rango no cubre la variabilidad esperada en la muestra.")
+), caption = ""
+)
+```
+
+
+## Parte 2: trabajamos con R
+
+*Para reiniciar la pregunta pulse sobre __Star Over__.*
+
+*Os recomendamos que investiguéis aquellos comandos que no conozcáis usando la ayuda de **R**.*
+
+### Pregunta 1
+```{r prR1}
+quiz(
+  question("¿Qué comando permite calcular un intervalo de confianza para la proporción en R?",
+    answer("p.test()", correct = FALSE, 
+           message = "Incorrecto. Esa función no existe en R."),
+    answer("prop.test()", correct = TRUE,
+           message = "¡Correcto! `prop.test()` se utiliza para calcular intervalos de confianza para proporciones."),
+    answer("s.test()", correct = FALSE,
+           message = "Incorrecto. Esa función no existe en R.")
+  ), caption = ""
+)
+```
+
+### Pregunta 2
+```{r prR2}
+quiz(
+  question("Has recogido una muestra de 150 estudiantes, y 45 de ellos han aprobado un examen. ¿Qué comando te permitiría calcular un intervalo de confianza al 95% para la proporción de aprobados?",
+    answer("prop.test(45, 150, conf.level = 0.95)", correct = TRUE,
+           message = "¡Correcto! Este es el comando adecuado para calcular un IC para proporciones."),
+    answer("t.test(45, 150, conf.level = 0.95)", correct = FALSE,
+           message = "Incorrecto. `t.test()` se usa para medias, no proporciones."),
+    answer("mean.test(45, 150)", correct = FALSE,
+           message = "Incorrecto. Esa función no existe en R base.")
+  ), caption = ""
+)
+```
+
+### Pregunta 3
+```{r prR3}
+quiz(
+  question("¿Cuál de los siguientes comandos en R utiliza correctamente la función `prop.test()` para calcular un intervalo de confianza al 95% a partir de 40 éxitos en una muestra de 100 casos?",
+    answer("prop.test(x = 40, n = 100, level = 0.95)", correct = FALSE,
+           message = "Incorrecto. El argumento correcto es `conf.level`, no `level`."),
+    answer("prop.test(40, 100, conf.level = 0.95)", correct = TRUE,
+           message = "¡Correcto! Esta es la sintaxis estándar de `prop.test()`."),
+    answer("prop.test(100, 40, conf.level = 0.95)", correct = FALSE,
+           message = "Incorrecto. El orden de los argumentos está invertido: primero van los éxitos."),
+    answer("prop.test(p = 0.4, n = 100)", correct = FALSE,
+           message = "Incorrecto. `prop.test()` no acepta proporciones directamente, necesita el número de éxitos.")
+  ), caption = ""
+)
+```
+### Pregunta 4
+```{r prR4}
+quiz(
+  question("¿Qué comando en R permite calcular un intervalo de confianza para la media de una población normal con varianza desconocida?",
+    answer("z.test()", correct = FALSE, message = "Incorrecto. `z.test()` se usa cuando la varianza es conocida (pero este comando no está en R base)."),
+    answer("t.test()", correct = TRUE, message = "¡Correcto! `t.test()` se usa cuando la varianza es desconocida."),
+    answer("prop.test()", correct = FALSE, message = "Incorrecto. `prop.test()` es para proporciones, no medias.")
+), caption = ""
+)
+```
+
+### Pregunta 5
+```{r prR5}
+quiz(
+  question("¿Cuál de los siguientes comandos en R utiliza correctamente la función `t.test()` para calcular un intervalo de confianza al 95% para la media de la población, a partir de una muestra llamada `datos`?",
+        answer("t.test(mean = datos, conf.level = 0.95)", correct = FALSE,
+           message = "Incorrecto. `t.test()` no usa `mean =` como argumento."),
+    answer("t.test(datos, level = 0.95)", correct = FALSE, message = "Incorrecto. El argumento correcto es `conf.level`, no `level`."),
+    answer("t.test(datos, conf.level = 0.95)", correct = TRUE,
+           message = "¡Correcto! Esta es la sintaxis adecuada para calcular un IC para la media usando `t.test()`.")
+  ), caption = ""
+)
+
+```
+
+### Pregunta 6
+
+```{r prR6}
+quiz(
+  question("Si deseas calcular un intervalo de confianza al 99% para la media de una población Normal a partir de una muestra llamada `notas`. ¿Cuál de los siguientes comandos en R es correcto?",
+    answer("t.test(notas, conf.level = 99)", correct = FALSE,
+           message = "Incorrecto. `conf.level` debe estar entre 0 y 1, no en porcentaje."),
+    answer("t.test(notas)", correct = FALSE,
+           message = "Incorrecto. Esto usaría el nivel de confianza por defecto (95%), no el 99%."),
+    answer("t.test(notas, conf.level = 0.99)", correct = TRUE,
+           message = "¡Correcto! `t.test()` con `conf.level = 0.99` calcula el intervalo de confianza al 99%.")
+  ), caption = ""
+)
+```
+
+### Pregunta 7
+```{r prR7}
+quiz(
+  question("Tienes dos muestras independientes llamadas `grupo1` y `grupo2`, de dos poblaciones Normales y deseas calcular un intervalo de confianza al 95% para la diferencia de sus medias. ¿Qué comando usarías?",
+        answer("t.test(mean(grupo1), mean(grupo2), conf.level = 0.95)", correct = FALSE,
+           message = "Incorrecto. `t.test()` necesita los vectores completos, no solo sus medias."),
+        answer("t.test(grupo1, grupo2, conf.level = 0.95)", correct = TRUE,
+           message = "¡Correcto! Esta es la sintaxis para comparar dos medias con muestras independientes."),
+    answer("t.test(grupo1 - grupo2, conf.level = 0.95)", correct = FALSE,
+           message = "Incorrecto. Así estarías creando una sola muestra con las diferencias, no comparando dos muestras independientes.")
+  ), caption = ""
+)
+```
+
+
+### Pregunta 8
+
+```{r prR8}
+quiz(
+  question("Deseas calcular un intervalo de confianza del 95% para la diferencia de proporciones entre dos grupos. Recoges dos muestras: en el primer grupo, 30 de 100 personas presentaron un resultado positivo; en el segundo, 45 de 120. ¿Qué comando en R deberías usar?",
+    answer("prop.test(30, 45, conf.level = 0.95)", correct = FALSE,
+           message = "Incorrecto. Eso no compara dos grupos, y el orden de argumentos es inválido."),
+    answer("t.test(c(30, 45), c(100, 120), conf.level = 0.95)", correct = FALSE,
+           message = "Incorrecto. `t.test()` se utiliza para comparar medias, no proporciones."),
+    answer("prop.test(c(30, 45), c(100, 120), conf.level = 0.95)", correct = TRUE,
+           message = "¡Correcto! `prop.test()` acepta vectores con los recuentos y los tamaños de muestra para comparar dos proporciones.")
+    ), caption = ""
+)
+```
+### Pregunta 9
+
+```{r prR9}
+quiz(
+  question("¿Qué comando en R permite calcular un intervalo de confianza para la varianza de una población normalmente distribuida?",
+      answer("t.test(x)", correct = FALSE,
+           message = "Incorrecto. `t.test()` calcula intervalos para medias, no varianzas."),
+      answer("var.test(x)", correct = TRUE,
+           message = "¡Correcto! `var.test()` se utiliza para realizar contrastes de varianzas y también devuelve un intervalo de confianza para la varianza de una muestra."),
+    answer("prop.test(x)", correct = FALSE,
+           message = "Incorrecto. `prop.test()` se utiliza para proporciones, no varianzas.")
+  ), caption = ""
+)
+```
+
+### Pregunta 10
+
+```{r prR10}
+quiz(
+  question("Supongamos que dispones de dos muestras independientes, `grupo1` y `grupo2`, de dos poblaciones Normales y deseas obtener un intervalo de confianza del 95% para el cociente de varianzas poblacionales. ¿Qué comando en R usarías?",
+    answer("var.test(grupo1, grupo2, conf.level = 0.95)", correct = TRUE,
+           message = "¡Correcto! `var.test()` compara dos varianzas e incluye el IC para su cociente."),
+    answer("t.test(grupo1, grupo2, conf.level = 0.95)", correct = FALSE,
+           message = "Incorrecto. `t.test()` compara medias, no varianzas."),
+    answer("sd.test(grupo1, grupo2, conf.level = 0.95)", correct = FALSE,
+           message = "Incorrecto. Esa función no existe en R base.")
+), caption = ""
+)
+```
+### Pregunta 11
+*En la base de datos **Housing** de la librería de R **Ecdat** tiene información, entre otras variables, sobre el precio de cada vivienda (denominada **price**). Para más detalles ejecutar help(Housing).*
+
+*Calcula un intervalo de confianza el 95% para el precio medio de la vivienda.*
+
+```{r prR11, exercise=TRUE}
+data("Housing", package = "Ecdat")
+head(Housing)
+```
+
+```{r prR11-1-hint}
+"Usa la función `t.test()` para calcular el intervalo."
+```
+
+```{r prR11-solution}
+t.test(Housing$price, conf.level=0.95)
+```
+
+### Pregunta 12
+*En la base de datos **Housing** de la librería de R **Ecdat** tiene información, entre otras variables, sobre el precio de cada vivienda (denominada **price**).
+
+*Calcula un intervalo de confianza al 90% para el varianza de precio de la vivienda.*
+
+```{r prR12, exercise=TRUE}
+data("Housing", package = "Ecdat")
+head(Housing)
+```
+
+```{r prR12-1-hint}
+"Usa la función `var.test()` para calcular el intervalo."
+```
+
+```{r prR12-solution}
+var.test(Housing$price, conf.level=0.90)
+```

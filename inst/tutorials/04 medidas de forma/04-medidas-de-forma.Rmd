@@ -1,0 +1,327 @@
+---
+title: "Estadística descriptiva: medidas de asimetría y curtosis"
+output: learnr::tutorial
+runtime: shiny_prerendered
+description: "Rosaura Fernández Pascual"
+---
+
+```{r setup, include=FALSE}
+#install.packages("learnr",  contriburl = contrib.url(repos="https://cloud.r-project.org", type="source"))
+install.packages("Ecdat", contriburl = contrib.url(repos="https://cloud.r-project.org", type="source"))
+install.packages("moments", contriburl = contrib.url(repos="https://cloud.r-project.org", type="source"))
+library(learnr)
+library(Ecdat)
+library(moments)
+
+# Cargamos los datos
+data(Housing)
+
+# Calcular la asimetría de la variable 'price' y la curtosis de 'bathrms' en el conjunto de datos 'Housing'
+asimetria <- skewness(Housing$price)
+curtosis_bathrms <- kurtosis(Housing$bathrms)-3
+
+# Calcular asimetría y curtosis de la variable 'bedrooms'
+asimetria_bedrooms <- skewness(Housing$bedrooms)
+curtosis_bedrooms <- kurtosis(Housing$bedrooms)-3
+
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Parte 1: pruebas tipo test
+
+*Sólo hay una opción correcta en cada una de las siguientes preguntas. Para reiniciar la prueba pulse sobre __Star Over__.*
+
+
+### Pregunta 1.
+
+```{r pr1}
+quiz(
+  question("La asimetría de una distribución indica...",
+  answer("Cómo se desvía la distribución hacia la derecha o izquierda respecto a la media", correct = TRUE,
+         message = "¡Correcto! La asimetría mide la inclinación de la distribución."),
+  answer("La cantidad de valores en los extremos de la distribución", correct = FALSE,
+         message = "Incorrecto. Eso está relacionado con la curtosis."),
+  answer("La media de la distribución", correct = FALSE,
+         message = "Incorrecto. La media es una medida de centralización.")
+),caption = ""
+)
+```
+
+### Pregunta 2.
+
+```{r pr2}
+quiz(
+question("¿Qué tipo de asimetría presenta una distribución con valores de asimetría menores que 0?",
+  answer("Asimetría negativa", correct = TRUE,
+         message = "¡Correcto! Valores menores que 0 indican asimetría hacia la izquierda."),
+  answer("Asimetría positiva", correct = FALSE,
+         message = "Incorrecto. Los valores negativos indican asimetría hacia la izquierda."),
+  answer("Distribución simétrica", correct = FALSE,
+         message = "Incorrecto. Una distribución simétrica tendría un valor de asimetría igual a 0.")
+),caption = ""
+)
+```
+
+### Pregunta 3.
+
+```{r pr3}
+quiz(
+question("Una distribución simétrica tiene un valor de asimetría de...",
+  answer("0", correct = TRUE,
+         message = "¡Correcto! Una distribución simétrica tiene asimetría cero."),
+  answer("1", correct = FALSE,
+         message = "Incorrecto. La asimetría de una distribución simétrica es cero."),
+  answer("-1", correct = FALSE,
+         message = "Incorrecto. La asimetría de una distribución simétrica es cero.")
+),caption = ""
+)
+```
+
+### Pregunta 4.
+
+```{r pr4}
+quiz(
+question("¿Cuál de las siguientes afirmaciones es cierta sobre una distribución asimétrica positiva?",
+  answer("Tiene una cola más larga hacia la derecha", correct = TRUE,
+         message = "¡Correcto! La asimetría positiva indica una cola hacia la derecha."),
+  answer("Tiene una cola más larga hacia la izquierda", correct = FALSE,
+         message = "Incorrecto. La asimetría positiva tiene cola hacia la derecha."),
+  answer("Tiene un valor de curtosis alto", correct = FALSE,
+         message = "Incorrecto. La asimetría positiva se refiere a la inclinación, no a la curtosis.")
+), caption = ""
+)
+```
+### Pregunta 5.
+
+```{r pr5}
+quiz(
+question("¿Qué indica una asimetría de valor cero en una distribución?",
+  answer("La distribución es simétrica", correct = TRUE,
+         message = "¡Correcto! La asimetría cero indica simetría."),
+  answer("La distribución es platicúrtica", correct = FALSE,
+         message = "Incorrecto. La asimetría cero no tiene relación con la curtosis."),
+  answer("La media y la moda son iguales", correct = FALSE,
+         message = "Incorrecto. Aunque es posible, la asimetría cero no garantiza que media y moda sean iguales.")
+),caption = ""
+)
+```
+
+### Pregunta 6.
+
+```{r pr6}
+quiz(
+question("Después de calcular la asimetría y curtosis de una variable, se observa que ambos valores son positivos. ¿Qué implica esto sobre la distribución de esta variable?",
+  answer("La distribución tiene una cola hacia la derecha y colas más pesadas", correct = TRUE,
+         message = "¡Correcto! La asimetría positiva indica una cola a la derecha, y la alta curtosis colas pesadas."),
+  answer("La distribución tiene una cola hacia la izquierda y colas menos pesadas", correct = FALSE,
+         message = "Incorrecto. La asimetría positiva indica una cola hacia la derecha."),
+  answer("La distribución es simétrica y mesocúrtica", correct = FALSE,
+         message = "Incorrecto. Los valores positivos indican asimetría y curtosis alta.")
+),caption = ""
+)
+```
+
+### Pregunta 7.
+
+```{r pr7}
+quiz(
+  question("La curtosis de una distribución indica...",
+  answer("La concentración de valores en los extremos de la distribución", correct = TRUE,
+         message = "¡Correcto! La curtosis mide la concentración de los valores en las colas de la distribución."),
+  answer("La variabilidad en torno a la media", correct = FALSE,
+         message = "Incorrecto. La variabilidad en torno a la media está más relacionada con la varianza."),
+  answer("La frecuencia de la moda", correct = FALSE,
+         message = "Incorrecto. La moda se refiere al valor más frecuente, no a la curtosis.")
+),caption = ""
+)
+```
+
+### Pregunta 8.
+
+```{r pr8}
+quiz(
+question("Una distribución con alta curtosis se describe como...",
+  answer("Leptocúrtica", correct = TRUE,
+         message = "¡Correcto! Las distribuciones leptocúrticas tienen picos altos y colas pesadas."),
+  answer("Mesocúrtica", correct = FALSE,
+         message = "Incorrecto. Las distribuciones mesocúrticas tienen curtosis cercana a 0."),
+  answer("Platicúrtica", correct = FALSE,
+         message = "Incorrecto. Las distribuciones platicúrticas tienen colas más delgadas.")
+),caption = ""
+)
+```
+### Pregunta 9.
+
+```{r pr9}
+quiz(
+question("¿Qué tipo de distribución presenta una curtosis similar a la normal?",
+  answer("Mesocúrtica", correct = TRUE,
+         message = "¡Correcto! Una distribución mesocúrtica tiene una curtosis similar a la normal."),
+  answer("Leptocúrtica", correct = FALSE,
+         message = "Incorrecto. Las distribuciones leptocúrticas tienen una curtosis mayor."),
+  answer("Platicúrtica", correct = FALSE,
+         message = "Incorrecto. Las distribuciones platicúrticas tienen una curtosis menor.")
+),caption = ""
+)
+```
+
+### Pregunta 10.
+
+```{r pr10}
+quiz(
+question("Si la curtosis de una distribución es negativa, se dice que es...",
+  answer("Platicúrtica", correct = TRUE,
+         message = "¡Correcto! Las distribuciones platicúrticas tienen colas menos pesadas."),
+  answer("Mesocúrtica", correct = FALSE,
+         message = "Incorrecto. Las distribuciones mesocúrticas tienen curtosis cercana a 0."),
+  answer("Leptocúrtica", correct = FALSE,
+         message = "Incorrecto. Las distribuciones leptocúrticas tienen curtosis positiva.")
+), caption = ""
+)
+```
+
+
+## Parte 2: trabajamos con R
+
+*Para poder trabajar correctamente en los siguientes ejercicios, ha de asegurarse que están instalados los paquetes __moments__ y __Ecdat__.*
+
+*Para reiniciar la pregunta pulse sobre __Star Over__.*
+
+*La base de datos __Housing__ de la librería de R __Ecdat__ tiene información de los precios de venta de casas en la ciudad de Windsor. Para más detalles ejecutar help(Housing).*
+
+*Os recomendamos que investiguéis aquellos comandos que no conozcáis usando la ayuda de **R**.*
+
+### Pregunta 1
+```{r prR1}
+quiz(
+  question("¿Qué comando permite calcular la asimetría en R?",
+    answer("var"),
+    answer("skewness", correct = TRUE),
+    answer("mlv")
+
+  ), caption = ""
+)
+```
+
+### Pregunta 2
+*¿Cuál es la asimetría del precio de las casas (variable __price__) en el conjunto de datos Housing?*
+```{r prR2, exercise=TRUE}
+data("Housing", package = "Ecdat")
+head(Housing)
+```
+
+```{r prR2-solution}
+solution = "skewness(Housing$price)"
+```
+
+### Pregunta 3
+```{r prR3}
+quiz(
+  question("¿Qué comando permite calcular la curtosis en R?",
+    answer("kurtosis", correct = TRUE),
+    answer("var"),
+    answer("mean"),
+    answer("mlv")
+
+  ), caption = ""
+)
+```
+### Pregunta 4
+```{r prR4}
+quiz(
+  question("¿Puedes utilizar directamente la salida del comando Kurtosis para saber si una variable tiene curtosis positiva, negativa o cero, en R?",
+    answer("Si"),
+    answer("No. Debemos restarle 3", correct = TRUE)
+    
+  ), caption = ""
+)
+```
+
+### Pregunta 5
+*¿Cuál es la curtosis del precio (variable __price__) en el conjunto de datos Housing?*
+```{r prR5, exercise=TRUE}
+data("Housing", package = "Ecdat")
+head(Housing)
+
+```
+
+
+```{r prR5-solution}
+solution = "Kurtosis(Housing$price)-3"
+```
+
+### Pregunta 6
+
+```{r prR6}
+quiz(
+  question(
+    paste("El cálculo de la asimetría de `price` en el conjunto de datos *Housing* resulta en un valor de", round(asimetria, 2), ". ¿Qué indica esto sobre la forma de la distribución?"),
+    answer("La distribución está sesgada hacia la derecha", correct = TRUE,
+           message = "¡Correcto! Una asimetría positiva indica una distribución sesgada a la derecha."),
+    answer("La distribución está sesgada hacia la izquierda", correct = FALSE,
+           message = "Incorrecto. La asimetría positiva indica un sesgo hacia la derecha."),
+    answer("La distribución es simétrica", correct = FALSE,
+           message = "Incorrecto. Una distribución simétrica tendría una asimetría de 0.")
+  ),
+  caption = ""
+)
+```
+
+### Pregunta 7
+*¿Cuál es la asimetría de la variable número de habitaciones (variable __bedrooms__) en el conjunto de datos Housing?*
+```{r prR7, exercise=TRUE}
+data("Housing", package = "Ecdat")
+head(Housing)
+```
+
+```{r prR7-solution}
+solution = "skewness(Housing$bedrooms)"
+```
+
+
+### Pregunta 8
+
+```{r prR8}
+quiz(
+  question(
+    paste("El cálculo de la curtosis para la variable `bathrms` en el conjunto de datos *Housing* resulta en un valor de", round(curtosis_bathrms, 2), ". ¿Qué indica esto sobre la forma de la distribución?"),
+    answer("La distribución es leptocúrtica (mayor concentración alrededor de la media)", correct = TRUE,
+           message = "¡Correcto! Una curtosis positiva indica una distribución leptocúrtica."),
+    answer("La distribución es platicúrtica (menos concentrada alrededor de la media)", correct = FALSE,
+           message = "Incorrecto. Este valor indica que la distribución es leptocúrtica."),
+    answer("La distribución es mesocúrtica (similar a la distribución normal)", correct = FALSE,
+           message = "Incorrecto. Este valor de curtosis no corresponde a una distribución mesocúrtica.")
+  ), 
+  caption = ""
+)
+```
+### Pregunta 9
+*¿Cuál es la curtosis de la variable número de habitaciones precio (variable __bedrooms__) en el conjunto de datos Housing?*
+```{r prR9, exercise=TRUE}
+data("Housing", package = "Ecdat")
+head(Housing)
+
+```
+
+```{r prR9-solution}
+solution = "Kurtosis(Housing$bedrooms)-3"
+```
+
+### Pregunta 10
+
+
+```{r prR10}
+quiz(
+  question(
+    paste("La asimetría de la variable `bedrooms` en el conjunto de datos *Housing* es de", round(asimetria_bedrooms, 2), "y su curtosis es de", round(curtosis_bedrooms, 2), ". ¿Qué conclusiones puedes sacar sobre la forma de la distribución de `bedrooms` con estos valores?"),
+    answer("La distribución está sesgada a la derecha y es leptocúrtica (mayor concentración alrededor de la media)", correct = TRUE,
+           message = "¡Correcto! La asimetría positiva indica un sesgo a la derecha, y la curtosis positiva sugiere que es leptocúrtica."),
+    answer("La distribución está sesgada a la izquierda y es platicúrtica (menos concentrada alrededor de la media)", correct = FALSE,
+           message = "Incorrecto. La asimetría positiva indica un sesgo hacia la derecha, no hacia la izquierda."),
+    answer("La distribución es simétrica y mesocúrtica (similar a la distribución normal)", correct = FALSE,
+           message = "Incorrecto. La distribución no es simétrica ni mesocúrtica con estos valores.")
+  ),
+  caption = "Pregunta sobre la asimetría y curtosis de `bedrooms`"
+)
+
+```

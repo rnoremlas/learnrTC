@@ -1,0 +1,306 @@
+---
+title: "Relación entre variables: covarianza/correlación"
+output: learnr::tutorial
+runtime: shiny_prerendered
+description: "Alessio Gaggero"
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Parte 1: pruebas tipo test
+
+*Sólo hay una opción corrrecta en cada una de las siguientes preguntas. Para reiniciar la prueba pulse sobre __Star Over__.*
+
+*Os recomendamos que investiguéis aquellos comandos que no conozcáis usando la ayuda de **R**. Por ejemplo: help(cov).*
+
+### Ejercicio 1: covarianza
+
+```{r ejer-1}
+quiz(
+  question("La covarianza...", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("mide la relación lineal entre dos variables estadísticas.", correct = TRUE),
+           answer("mide cualquier tipo de relación entre dos variables estadísticas.", correct = FALSE),
+           answer("indica que dos variables estadísticas varían en sentido distinto si tiene signo positivo.", correct = FALSE),
+           answer("indica que dos variables estadísticas varían en el mismo sentido si tiene signo negativo.", correct = FALSE)
+  ),
+  question("Seleccione la afirmación incorrecta:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("A la covarianza le afectan los cambios de origen y escala.", correct = FALSE),
+    answer("Si dos variables son estadísticamente independientes, entonces su cavarianza es igual a cero.", correct = FALSE),
+    answer("Si la covarianza entre dos variables estadísticas es igual a cero, no tiene porqué verificarse que ambas variables sean estadísticamente independientes.", correct = FALSE),
+    answer("La covarianza entre dos variables estadísticas X  e Y se calculan mediante el comando *cor(X,Y)*.", correct = TRUE)
+  ),
+  caption = ""
+)
+```
+
+*Dadas las siguientes representaciones gráficas:*
+
+```{r ejer-1-bis, warning=FALSE, message=FALSE}
+# USANDO CHAPGPT
+
+# Cargar librerías necesarias
+library(ggplot2)
+library(gridExtra)
+
+# Fijar una semilla para reproducibilidad
+set.seed(123)
+
+# Generar 20 datos relacionados positivamente
+x_pos <- rnorm(20, mean = 10, sd = 2)
+y_pos <- 0.5 * x_pos + rnorm(20, mean = 0, sd = 1)
+
+# Generar 20 datos relacionados negativamente
+x_neg <- rnorm(20, mean = 10, sd = 2)
+y_neg <- -0.5 * x_neg + rnorm(20, mean = 0, sd = 1)
+
+# Generar 20 datos sin relación
+x_none <- rnorm(20, mean = 10, sd = 2)
+y_none <- rnorm(20, mean = 10, sd = 2)
+
+# Crear dataframes individuales para cada relación
+data_pos <- data.frame(X = x_pos, Y = y_pos)
+data_neg <- data.frame(X = x_neg, Y = y_neg)
+data_none <- data.frame(X = x_none, Y = y_none)
+
+# Crear gráficos individuales
+plot_pos <- ggplot(data_pos, aes(x = X, y = Y)) +
+  geom_point(color = "blue") +
+  geom_smooth(method = "lm", se = FALSE, linetype = "dashed", color = "blue") +
+  labs(#title = "Relación Positiva", 
+       x = "X", y = "Y") +
+  theme_minimal()
+
+plot_neg <- ggplot(data_neg, aes(x = X, y = Y)) +
+  geom_point(color = "red") +
+  geom_smooth(method = "lm", se = FALSE, linetype = "dashed", color = "red") +
+  labs(#title = "Relación Negativa", 
+       x = "X", y = "Y") +
+  theme_minimal()
+
+plot_none <- ggplot(data_none, aes(x = X, y = Y)) +
+  geom_point(color = "green") +
+  labs(#title = "Sin Relación", 
+    x = "X", y = "Y") +
+  theme_minimal()
+
+# Combinar los gráficos en una sola figura
+grid.arrange(plot_pos, plot_neg, plot_none, ncol = 2)
+```
+
+```{r ejer-1-tris}
+quiz(
+  question("Las variables estadísticas $X$ e $Y$:", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("no se relacionan linealmente en la gráfica representada en verde.", correct = TRUE),
+           answer("se relacionan linealmente de forma positiva en la gráfica representada en rojo.", correct = FALSE),
+           answer("se relacionan linealmente de forma negativa en la gráfica representada en azul.", correct = FALSE),
+           answer("verifican (sí o sí) que son estadísticamente independientes en la gráfica representada en verde.", correct = FALSE)
+  ),
+  caption = ""
+)
+```
+
+### Ejercicio 2: correlación
+
+
+```{r ejer-2}
+quiz(
+  question("La correlación lineal simple...", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("mide cualquier tipo de relación entre dos variables estadísticas.", correct = FALSE),
+    answer("al contrario que la covarianza, permite establecer si el grado de relación lineal entre dos variables estadísticas  es más o menos fuerte ya que está acotada.", correct = TRUE),
+    answer("verifica que toma valores en el intervalo [0, 1].", correct = FALSE),
+    answer("se calcula mediante el comando *cov*.", correct = FALSE)
+  ),
+  question("Seleccione la afirmación incorrecta:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("Un coeficente de correlación lineal simple próximo a 1 indica que la relación lineal entre dos variables estadísticas es directa y fuerte.", correct = FALSE),
+    answer("El coeficiente de correlación lineal simple verifica que toma valores en el intervalo (-1, 1).", correct = TRUE),
+    answer("Un coeficente de correlación lineal simple próximo a -1 indica que la relación lineal entre dos variables estadísticas es inversa y fuerte.", correct = FALSE),
+    answer("Un coeficente de correlación lineal simple próximo a 0 indica ausencia de la relación lineal entre dos variables estadísticas.", correct = FALSE)
+  ),
+  question("Seleccione la afirmación incorrecta:", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("Al coeficiente de correlación lineal le afectan los cambios de origen y escala.", correct = TRUE),
+           answer("El coeficiente de correlación lineal simple sólo tiene sentido calcularlo cuando ambas variables son continuas.", correct = FALSE),
+           answer("El coeficiente de correlación lineal simple de las variables estadísticas X e Y se calcula mediante el comando *cor(X,Y)*.", correct = FALSE),
+           answer("La covarianza de las variables estadísticas X e Y se calcula mediante el comando *cov(X,Y)*.", correct = FALSE)
+  ),
+  question("Teniendo en cuenta que la correlación entre el consumo y los ingresos es igual a 0.995:", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("La covarianza entre ambas variables estadísticas tiene signo negativo.", correct = FALSE),
+    answer("Se verifica que cuando los ingresos aumentan, el consumo disminuye.", correct = FALSE),
+    answer("Se ha usado el comando *cor* para obtener dicho valor.", correct = TRUE),
+    answer("Se verifica que el consumo y los ingresos tienen una fuerte relación cuadrática directa.", correct = FALSE)
+  ), caption = ""
+)
+```
+
+### Ejercicio 3
+
+```{r ejer-3}
+quiz(
+  question("Seleccione la afirmación correcta:", allow_retry = TRUE, random_answer_order = TRUE,
+           answer("El coeficiente de correlación lineal no permite determinar relaciones de causalidad (causa-efecto).", correct = TRUE),
+           answer("Si el coeficente de correlación lineal entre el ingreso y el consumo es positivo y cercano a 1 se puede afirmar que el consumo aumenta porque lo hace el ingreso.", correct = FALSE),
+           answer("La covarianza mide cualquier tipo de relación, no sólo la lineal.", correct = FALSE),
+           answer("La covarianza y el coeficiente de correlación lineal siempre tienen signos opuestos.", correct = FALSE)
+  ),
+  caption = ""
+)
+```
+
+*Dada la siguiente representación gráfica:*
+
+```{r ejer-3-bis}
+x = -100:100
+y = x^2
+plot(x, y, col="blue", lwd=2)
+```
+
+```{r ejer-3-tris}
+quiz(
+  question("¿Calcularía el coeficiente de correlación entre ambas variables?", allow_retry = TRUE, random_answer_order = TRUE,
+           answer("Sí, aunque la relación que se observa es no lineal y su cálculo no será informativo.", correct = TRUE),
+           answer("No, porque está claro que la relación lineal es perfecta y va a salir igual a 1.", correct = FALSE),
+           answer("No, no se puede calcular porque la relación no es lineal.", correct = FALSE),
+           answer("Sí, es más, debe de salir igual a 0 porque se observa que, al principio, cuando 'x' aumenta 'y' disminuye y, después, cuando 'x' aumenta 'y' también lo hace; así que se compensan.", correct = FALSE)
+  ),
+  caption = ""
+)
+```
+
+## Parte 2: trabajamos con R
+
+*Para poder trabajar correctamente en los siguientes ejercicios, ha de asegurarse que están instalados los paquetes __carData__, __ggplot2__ y __Ecdat__.*
+
+*Para reiniciar la prueba pulse sobre __Star Over__.*
+
+*Os recomendamos que investiguéis aquellos comandos que no conozcáis usando la ayuda de **R**. Por ejemplo: help(abline).*
+
+### Ejercicio 4
+
+*En la base de datos __Salaries__ de la librería de R __carData__ tiene información sobre 6 variables, entre las que se encuentra el salario (denominada __salary__) de 397 profesores universitarios, la disciplina (__discipline__, teórica=A o aplicada=B) a la que se dedican, el número de años de servicio (__yrs.service__) y el número de años desde el doctorado (__yrs.since.phd__). Para más detalles ejecutar help(Salaries).*
+
+*¿Se puede afirmar el salario y el número de años de servicio evolucionan de la misma forma? ¿Es una relación fuerte? Escriba el código que permita responder dichas preguntas.*
+ 
+```{r ejer-4, exercise=TRUE, exercise.lines = 5}
+library(carData)
+attach(Salaries) 
+
+```
+
+```{r ejer-4-hint}
+library(carData)
+attach(Salaries) 
+
+cov(salary, yrs.service) # coeficiente positivo, luego cuando una aumenta la otra también
+cor(salary, yrs.service) # coeficiente positivo alejado del 1, luego cuando una aumenta la otra también pero la relación no es alta
+```
+
+*Represente el diagrama de dispersión del salario frente al número de años desde el doctorado. ¿Cómo se relacionan ambas variables? ¿La relación es fuerte?*
+
+```{r ejer-4-bis, exercise=TRUE, exercise.lines = 3}
+
+```
+
+```{r ejer-4-bis-hint}
+library(carData)
+attach(Salaries) 
+plot(yrs.since.phd, salary, col="red") # se puede apreciar cierta relación positiva
+cor(salary, yrs.since.phd) # coeficiente positivo alejado del 1, luego cuando una aumenta la otra también pero la relación no es alta
+```
+
+*Represente el diagrama de dispersión del salario frente a la __disciplina__ calculada a partir de __discipline__ como sigue: __disciplina__ es igual a 1 si la disciplina es teórica y a 0 en caso contrario. ¿Calcule el coeficiente de correlación lineal simple entre __disciplina__ y __salary__? ¿Qué indican los resultados obtenidos? ¿El cálculo realizado es adecuado?*
+
+```{r ejer-4-tris, exercise=TRUE, exercise.lines = 3}
+library(carData)
+attach(Salaries) 
+disciplina = ifelse(discipline=="A", 1, 0)
+```
+
+```{r ejer-4-tris-hint}
+library(carData)
+attach(Salaries) 
+disciplina = ifelse(discipline=="A", 1, 0)
+cor(salary, disciplina) # coeficiente negativo alejado del 1, luego cuando una aumenta la otra disminuye pero la relación no es alta
+plot(disciplina, salary, col="red") # se puede apreciar que la relación no es lineal; además, la variable disciplina no es continua luego no es adecuado calcular esta medida 
+```
+
+### Ejercicio 5
+
+*En la base de datos __economics__ de la librería de R __ggplot2__ tiene información sobre 6 variables, entre las que se encuentra el número de desempleados (denominada __unemploy__ y medida en miles) en 574 fechas distintas, el total de la población (__pop__, medida también en miles), gastos de consumo personal (__pce__) y la tasa de ahorro personal (__psavert__). Para más detalles ejecutar help(economics).*
+
+*Escriba el código que permita calcular la correlación lineal simple entre todas las variables anteriores. ¿Cómo se relacionan las variables? ¿Cuando aumenta la población también lo hace el desempleo? ¿Cuando aumenta el consumo personal también lo hace el ahorro? ¿Las relaciones son fuertes?*
+
+```{r ejer-5, exercise=TRUE, exercise.lines = 4}
+library(ggplot2)
+attach(economics) 
+variables = data.frame(unemploy, pop, pce, psavert)
+```
+
+```{r ejer-5-hint}
+library(ggplot2)
+attach(economics)  
+variables = data.frame(unemploy, pop, pce, psavert)
+cor(variables) # todos los coeficientes son positivos excepto los de 'psavert' con las demás; es decir, cuando aumenta el ahorro todas las demás disminuyen; por tanto, la respuesta a la primera cuestión es afirmativa y a la segunda negativa. Las relaciones más fuertes que hay hacen referencia al consumo personal con la población y al ahorro con la población.
+```
+
+*Represente el diagrama de dispersión de la población frente al consumo. ¿Qué se observa? ¿Se puede establecer que la población aumenta porque aumenta el consumo?.*
+
+```{r ejer-5-bis, exercise=TRUE, exercise.lines = 2}
+
+```
+
+```{r ejer-5-bis-hint}
+plot(pce, pop, col="red") # se observa una clara relación positiva (recordemos que la correlación es igual a 0.9872421); no, no se pueden establecer relaciones de causalidad
+```
+
+### Ejercicio 6
+
+*En la base de datos __Housing__ de la librería de R __Ecdat__ tiene información, entre otras variables, sobre el precio de cada vivenda (denominada __price__), el tamaño de la vivienda (denominada __lotsize__) y el número de dormitorios (denominada __bedrooms__). Para más detalles ejecutar help(Housing).*
+
+*Teniendo en cuenta la siguiente información (obtenida con el comando __ggpairs__ de la librería __GGally__):*
+
+```{r ejer-6, message=FALSE, warning=FALSE}
+library(Ecdat)
+attach(Housing) 
+
+# HECHO CON CHATGPT
+# Cargar la librería
+library(GGally) # install.packages("GGally")
+
+variables = data.frame(price, lotsize, bedrooms)
+
+# Crear una matriz de gráficos con ggpairs
+ggpairs(variables)
+```
+
+```{r ejer-6-test}
+quiz(
+  question("¿Calcularía el coeficiente de correlación lineal simple del precio y tamaño de la vivienda con el número de dormitorios?", allow_retry = TRUE, random_answer_order = TRUE,
+           answer("No, ya que tal y como se observa en la representación gráfica se tiene que *bedrooms* no es una variable continua.", correct = TRUE),
+           answer("Claro que sí, es más, está ya calculado indicando que a mayor número de dormitorios mayor precio y tamaño de la vivienda.", correct = FALSE),
+           answer("No, ya que *bedrooms* es una variable continua.", correct = FALSE),
+           answer("No, ya que se observa que la vivienda que tiene mayor número de dormitorios tine 6 y eso no es posible.", correct = FALSE)
+  ),
+  question("Indique la expresión correcta:", allow_retry = TRUE, random_answer_order = TRUE,
+           answer("Los coeficientes de correlación lineal simple indican que a mayor tamaño de la vivienda mayor precio de la vivienda.", correct = TRUE),
+           answer("Los coeficientes de correlación lineal simple indican que a menor tamaño de la vivienda mayor precio de la vivienda.", correct = FALSE),
+           answer("El coeficiente de la correlación lineal simple no coincide con el de la covarianza.", correct = FALSE)
+  ),
+  caption = ""
+)
+```
+
+
+*Escriba el código que permita calcular la correlación lineal simple entre el precio de la vivienda y su tamaño en las viviendas con más de 4 dormitorios. ¿Se ha modificado la relación lineal entre ambas variables?*
+
+```{r ejer-6-bis, exercise=TRUE, exercise.lines = 3}
+library(Ecdat)
+attach(Housing) 
+```
+
+```{r ejer-6-bis-hint}
+library(Ecdat)
+attach(Housing) 
+cor(price[bedrooms>4], lotsize[bedrooms>4]) # se observa que de 0.536 se pasa a 0.8288; aumenta la relación lineal positiva
+```

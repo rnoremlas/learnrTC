@@ -1,0 +1,262 @@
+---
+title: "Recta de regresión de Mínimos Cuadrados"
+output: learnr::tutorial
+runtime: shiny_prerendered
+description: "Román Salmerón Gómez"
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Relaciones no lineales
+
+*Sólo hay una opción corrrecta en cada una de las siguientes preguntas. Para reiniciar la prueba pulse sobre __Star Over__.*
+
+*Os recomendamos que investiguéis aquellos comandos que no conozcáis usando la ayuda de **R**. Por ejemplo: help(lm).*
+
+*También sería conveniente visitar la web <https://rnoremlas.quarto.pub/un_rincon_para_r/posts/13_regresion/>.*
+
+### Ejercicio 1
+
+*Dada la siguiente representación gráfica del diagrama de dispersión entre dos variables estadísticas $X$ e $Y$*:
+
+```{r ejer-1-1}
+## CÓDIGO GENERADO POR CHATGPT
+
+# Generar los datos
+set.seed(123)  # Para reproducibilidad
+x <- seq(1, 20, length.out = 20)  # Variable independiente (de 1 a 20)
+y <- exp(0.15 * x) + rnorm(20, mean = 0, sd = 0.5)  # Relación exponencial con ruido
+
+# Mostrar los datos
+#data <- data.frame(x, y)
+#print(data)
+
+# Graficar los datos
+minimum = min(x, y)
+maximum = max(x, y)
+plot(x, y, xlim=c(minimum, maximum),  ylim=c(minimum, maximum), xlab = "x", ylab = "y", pch = 19, col = "blue")
+#lines(x, exp(0.15 * x), col = "red", lwd = 2)  # Línea de la relación exponencial ideal
+```
+
+```{r ejer-1-1-bis}
+quiz(
+  question("¿Ajustaría una recta de regresión de mínimos cuadrados?", allow_retry = TRUE, random_answer_order = TRUE, 
+           answer("No, porque se aprecia que la relación entre ambas variables no es lineal.", correct = TRUE),
+           answer("Sí, porque se aprecia que la relación entre ambas variables no es lineal.", correct = FALSE),
+           answer("Sí, concretamente x = c + d*y.", correct = FALSE),
+           answer("Sí, porque se aprecia que la relación entre ambas variables es lineal.", correct = FALSE)
+  ),
+  caption = ""
+)
+```
+
+*Y con esta nueva información*:
+
+```{r ejer-1-2}
+minimum = min(x, y)
+maximum = max(x, y)
+plot(x, y, xlim=c(minimum, maximum),  ylim=c(minimum, maximum), xlab = "x", ylab = "y", pch = 19, col = "blue")
+lines(x, exp(0.15 * x), col = "red", lwd = 2)  # Línea de la relación exponencial ideal
+```
+
+```{r ejer-1-2-bis}
+quiz(
+  question("¿Ajustaría una recta de regresión de mínimos cuadrados?", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("Sí, porque se aprecia que la relación entre ambas variables es lineal.", correct = FALSE),
+    answer("No, porque se aprecia que la relación entre ambas variables es no lineal.", correct = FALSE),
+    answer("No, porque la relación no es lineal y no hay forma de conseguir que lo sea.", correct = FALSE),
+    answer("Sí, pero modificaria previamente las variables para que la relación pase a ser lineal.", correct = TRUE)
+  ),
+  caption = ""
+)
+```
+
+*A partir de la siguiente representación gráfica*:
+
+```{r ejer-1-3}
+lny = log(y)
+minimum = min(x, lny)
+maximum = max(x, lny)
+plot(x, lny, xlim=c(minimum, maximum),  ylim=c(minimum, maximum), 
+     xlab = "x", ylab = "ln(y)", pch = 19, col = "blue")
+lines(x, 0.15 * x, col = "red", lwd = 2)  # Línea de la relación exponencial ideal
+```
+
+```{r ejer-1-3-bis}
+quiz(
+  question("¿Ajustaría una recta de regresión de mínimos cuadrados? ¿Cuál?", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("Sí, la recta de regresión ln(y) = a + b*x mediante el comando *lm(log2(y)~x)*.", correct = FALSE),
+    answer("No, porque se aprecia que la relación entre ambas variables es no lineal.", correct = FALSE),
+    answer("Sí, la recta de regresión ln(y) = a + b*x mediante el comando *lm(log(y)~x)*.", correct = TRUE),
+    answer("Sí, la recta de regresión ln(y) = a + b*x mediante el comando *lm(y~log(x))*.", correct = FALSE)
+  ),
+  caption = ""
+)
+```
+
+### Ejercicio 2
+
+*Tenga en cuenta que la siguiente representación gráfica del diagrama de dispersión entre dos variables estadísticas $X$ e $Y$ y de la recta de regresión de mínimos cuadrados $y = a + b \cdot x$.*
+
+```{r ejer-2}
+# Generar los datos
+set.seed(123)  # Para reproducibilidad
+x <- seq(1, 20, length.out = 20)  # Variable independiente (de 1 a 20)
+y <- 1/x + rnorm(20, mean = 0, sd = 0.02)  # Relación exponencial con ruido
+
+# Ajuste lineal
+reg = lm(y~x)
+
+# Graficar los datos
+minimum = min(x, y)
+maximum = max(x, y)
+plot(x, y, #xlim=c(minimum, maximum),  ylim=c(minimum, maximum), 
+     xlab = "x", ylab = "y", pch = 19, col = "blue")
+abline(reg, col = "red", lwd = 2)
+#lines(x, 1/x, col = "red", lwd = 2)  # Línea de la relación exponencial ideal
+```
+
+```{r ejer-2-bis}
+quiz(
+  question("¿Ajustaría una recta de regresión de mínimos cuadrados?", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("Sí, ya que la relación entre ambas variables es claramente lineal.", correct = FALSE),
+    answer("No, ya que la relación entre ambas variables es claramente no lineal.", correct = TRUE),
+    answer("No, ya que la relación entre ambas variables es claramente lineal.", correct = FALSE),
+    answer("Sí, ya que la relación entre ambas variables es claramente no lineal.", correct = FALSE)
+  ),
+  question("Repetimos, ¿ajustaría una recta de regresión de mínimos cuadrados?", allow_retry = TRUE, random_answer_order = TRUE, 
+    answer("Sí, la recta de regresión y = a + b*(1/x) mediante el comando *lm(y~x)*.", correct = FALSE),
+    answer("Sí, la recta de regresión y = a + b*(1/x) mediante el comando *lm(y~X)* donde *X = 1/x*.", correct = TRUE),
+    answer("Sí, la recta de regresión y = a + b*ln(x) mediante el comando *lm(ln(y)~x)*.", correct = FALSE),
+    answer("Sí, la recta de regresión ln(y) = a + b*ln(x) mediante el comando *lm(ln(y)~ln(x))*.", correct = FALSE)
+  ), caption = ""
+)
+```
+
+*Teniendo en cuenta que los datos anteriores se han generado como sigue, complete el código (teniendo en cuenta la respuesta correcta de la pregunta anterior) de forma que se realice un ajuste lineal y no lineal. ¿Cuál presenta un mejor ajuste?*
+
+```{r ejer-2-tris, exercise=TRUE, exercise.lines = 7}
+set.seed(123)  # Para reproducibilidad
+x <- seq(1, 20, length.out = 20)  # Variable independiente (de 1 a 20)
+y <- 1/x + rnorm(20, mean = 0, sd = 0.02)  # Relación exponencial con ruido
+```
+
+```{r ejer-2-tris-hint}
+set.seed(123)  # Para reproducibilidad
+x <- seq(1, 20, length.out = 20)  # Variable independiente (de 1 a 20)
+y <- 1/x + rnorm(20, mean = 0, sd = 0.02)  # Relación exponencial con ruido
+
+reg = lm(y~x)
+summary(reg) # R^2 = 0.5168
+
+X = 1/x
+reg = lm(y~X)
+summary(reg) # R^2 = 0.9924 (mejor ajuste lineal)
+```
+
+### Ejercicio 3
+
+*Dada la siguiente representación gráfica:*
+
+```{r ejer-3}
+x = -100:100
+y = 2*x^2 + rnorm(length(x), 10, 100)
+plot(x, y, col="blue", lwd=2)
+```
+
+```{r ejer-3-bis}
+quiz(
+  question("¿Realizaría algún ajuste de regresión de y sobre x?", allow_retry = TRUE, random_answer_order = TRUE,
+           answer("No, ya que la relación existente no es lineal.", correct = TRUE),
+           answer("Sí, ya que la relación lineal es perfecta y daría un coeficiente de determinación igual a uno.", correct = FALSE),
+           answer("Sí, el ajuste y = a + b*x^2 y usaría el comando *lm(y~x+0)*.", correct = FALSE),
+           answer("Sí, el ajuste y = b*x^2 y usaría el comando *lm(y~x+0)*.", correct = FALSE)
+  ), caption = ""
+)
+```
+
+### Ejercicio 4
+
+*A continuación se considera el número de casos positivos de COVID19 observados a primeros de marzo del año 2020 junto a una componente temporal que hace referencia al día en el que se registra dicho número de positivos:*
+
+```{r ejer-4, exercise=TRUE, exercise.lines = 6}
+casos = c(2, 2, 2, 2, 3, 9, 17, 33, 54, 81, 135, 192, 263, 341, 532, 755, 1078, 1511, 2275, 3256,
+          4402, 5873, 7593, 8185, 8299, 8468, 8634, 8805, 8932, 9116, 9176, 9238, 9328, 9466, 9719,  
+          11448, 13936, 17633, 21672, 26161, 31674, 36551, 41176, 48822, 54071, 57368, 66309, 75467,
+          83727, 90133, 95934, 97407, 103993, 104072, 111499, 119047, 126283, 132956, 138526, 142169,
+          147438, 153010, 158732, 163334, 167941, 171897, 175057, 178260, 182759)
+dia = 1:length(casos)
+#plot(dia, casos, type="b", col="blue", xlab="Día", ylab="Número de CASOS", lwd=3)
+```
+
+*¿Considera que la relación existente es lineal? Escriba a continuación el código necesario para responder dicha pregunta.*
+
+```{r ejer-4-bis, exercise=TRUE, exercise.lines = 7}
+casos = c(2, 2, 2, 2, 3, 9, 17, 33, 54, 81, 135, 192, 263, 341, 532, 755, 1078, 1511, 2275, 3256,
+          4402, 5873, 7593, 8185, 8299, 8468, 8634, 8805, 8932, 9116, 9176, 9238, 9328, 9466, 9719,  
+          11448, 13936, 17633, 21672, 26161, 31674, 36551, 41176, 48822, 54071, 57368, 66309, 75467,
+          83727, 90133, 95934, 97407, 103993, 104072, 111499, 119047, 126283, 132956, 138526, 142169,
+          147438, 153010, 158732, 163334, 167941, 171897, 175057, 178260, 182759)
+dia = 1:length(casos)
+```
+
+```{r ejer-4-bis-hint}
+casos = c(2, 2, 2, 2, 3, 9, 17, 33, 54, 81, 135, 192, 263, 341, 532, 755, 1078, 1511, 2275, 3256,
+          4402, 5873, 7593, 8185, 8299, 8468, 8634, 8805, 8932, 9116, 9176, 9238, 9328, 9466, 9719,  
+          11448, 13936, 17633, 21672, 26161, 31674, 36551, 41176, 48822, 54071, 57368, 66309, 75467,
+          83727, 90133, 95934, 97407, 103993, 104072, 111499, 119047, 126283, 132956, 138526, 142169,
+          147438, 153010, 158732, 163334, 167941, 171897, 175057, 178260, 182759)
+dia = 1:length(casos)
+plot(dia, casos, type="b", col="blue", xlab="Día", ylab="Número de CASOS", lwd=3) # relación no lineal (no se ajusta a una recta)
+```
+
+*Escriba a continuación el código necesario para ajustar una recta de regresión del número de casos sobre el día. ¿Es bueno el ajuste realizado?*
+
+```{r ejer-4-tris, exercise=TRUE, exercise.lines = 9}
+casos = c(2, 2, 2, 2, 3, 9, 17, 33, 54, 81, 135, 192, 263, 341, 532, 755, 1078, 1511, 2275, 3256,
+          4402, 5873, 7593, 8185, 8299, 8468, 8634, 8805, 8932, 9116, 9176, 9238, 9328, 9466, 9719,  
+          11448, 13936, 17633, 21672, 26161, 31674, 36551, 41176, 48822, 54071, 57368, 66309, 75467,
+          83727, 90133, 95934, 97407, 103993, 104072, 111499, 119047, 126283, 132956, 138526, 142169,
+          147438, 153010, 158732, 163334, 167941, 171897, 175057, 178260, 182759)
+dia = 1:length(casos)
+```
+
+```{r ejer-4-tris-hint}
+casos = c(2, 2, 2, 2, 3, 9, 17, 33, 54, 81, 135, 192, 263, 341, 532, 755, 1078, 1511, 2275, 3256,
+          4402, 5873, 7593, 8185, 8299, 8468, 8634, 8805, 8932, 9116, 9176, 9238, 9328, 9466, 9719,  
+          11448, 13936, 17633, 21672, 26161, 31674, 36551, 41176, 48822, 54071, 57368, 66309, 75467,
+          83727, 90133, 95934, 97407, 103993, 104072, 111499, 119047, 126283, 132956, 138526, 142169,
+          147438, 153010, 158732, 163334, 167941, 171897, 175057, 178260, 182759)
+dia = 1:length(casos)
+
+reg = lm(casos~dia)
+summary(reg) # R^2 = 0.8195, no es bajo
+```
+
+*En caso de considerar adecuado un ajuste distinto al de la recta de regresión, escriba a continuación el código necesario para ajustarlo al número de casos sobre el día. ¿Mejora el ajuste realizado al realizado anteriormente?*
+
+*Pista: tenga en cuenta que el modelo no lineal potencial $casos = a \cdot dia^{b}$ se puede expresar linealmente como $ln(casos) = A + b\cdot ln(dia)$ donde $A = ln(a)$.*
+
+```{r ejer-4-cuatris, exercise=TRUE, exercise.lines = 9}
+casos = c(2, 2, 2, 2, 3, 9, 17, 33, 54, 81, 135, 192, 263, 341, 532, 755, 1078, 1511, 2275, 3256,
+          4402, 5873, 7593, 8185, 8299, 8468, 8634, 8805, 8932, 9116, 9176, 9238, 9328, 9466, 9719,  
+          11448, 13936, 17633, 21672, 26161, 31674, 36551, 41176, 48822, 54071, 57368, 66309, 75467,
+          83727, 90133, 95934, 97407, 103993, 104072, 111499, 119047, 126283, 132956, 138526, 142169,
+          147438, 153010, 158732, 163334, 167941, 171897, 175057, 178260, 182759)
+dia = 1:length(casos)
+```
+
+```{r ejer-4-cuatris-hint}
+casos = c(2, 2, 2, 2, 3, 9, 17, 33, 54, 81, 135, 192, 263, 341, 532, 755, 1078, 1511, 2275, 3256,
+          4402, 5873, 7593, 8185, 8299, 8468, 8634, 8805, 8932, 9116, 9176, 9238, 9328, 9466, 9719,  
+          11448, 13936, 17633, 21672, 26161, 31674, 36551, 41176, 48822, 54071, 57368, 66309, 75467,
+          83727, 90133, 95934, 97407, 103993, 104072, 111499, 119047, 126283, 132956, 138526, 142169,
+          147438, 153010, 158732, 163334, 167941, 171897, 175057, 178260, 182759)
+dia = 1:length(casos)
+
+reg = lm(log(casos)~log(dia))
+summary(reg) # R^2 = 0.9585, mayor que el anterior y cercano a 1
+```
