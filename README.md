@@ -63,3 +63,5 @@ Al ejecutar cada tutorial, si no tienes instalados los paquetes requeridos, preg
 ¡¡Esperamos que este paquete sea de tu interés!!
 
 NOTA: cuando se instala R desde la web R for macOS (https://cran.r-project.org/bin/macosx/) no hay que instalar (ya que da fallo) la versión que tenga arm64, sino cualquier otra (por ejemplo, la que hay debajo).
+
+NOTA: se han elaborado tutoriales que explican cómo se ha usado el paquete learnr para crear el material aquí disponible. Dichos tutoriales están disponibles escribiendo a romansg@ugr.es.
